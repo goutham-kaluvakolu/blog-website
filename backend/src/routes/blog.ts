@@ -24,6 +24,7 @@ blogRouter.use('/*', async (c, next) => {
     const vaidUser = await verify(token_jwt, secret)
     if (vaidUser.id) {
         c.set('userId', vaidUser.id)
+        console.log("***middile*******")
         await next()
     }
     else {
@@ -95,8 +96,9 @@ blogRouter.get('/bulk', async (c) => {
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
+    console.log("***bulk*******")
 
-    const body = await c.req.json()
+    // const body = await c.req.json()
     try {
         const blogs = await prisma.post.findMany()
         return c.json({ blogs })

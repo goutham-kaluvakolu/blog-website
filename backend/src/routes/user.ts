@@ -19,6 +19,7 @@ export const userRouter = new Hono<{
     }).$extends(withAccelerate())
   
     const body = await c.req.json();
+    console.log(body)
     const sucess = signupInput.safeParse(body)
     if (!sucess.success){
       c.status(411)
@@ -26,21 +27,28 @@ export const userRouter = new Hono<{
         error:"incorrect inputs"
       })
     }
-  
-    const user = await prisma.user.create({
-      data: {
-        email: body.email,
-        password: body.password
+    try{
+      const user = await prisma.user.create({
+        data: {
+          email: body.email,
+          password: body.password
+        }
+      })
+    
+      const payload = {
+        id: user.id,
       }
-    })
-  
-    const payload = {
-      id: user.id,
+      const secret = c.env.JWT_SECRET
+      const token = await sign(payload, secret)
+    
+      return c.json({ "jwt": token })
     }
-    const secret = c.env.JWT_SECRET
-    const token = await sign(payload, secret)
-  
-    return c.json({ "jwt": token })
+    catch(e){
+      c.status(409)
+      return c.json({ "error": "user exists" })
+
+    }
+   
   
   })
   

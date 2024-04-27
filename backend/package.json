@@ -7,6 +7,7 @@
     "@goutham4331/blog-website-commons": "^1.0.0",
     "@prisma/client": "^5.12.1",
     "@prisma/extension-accelerate": "^1.0.0",
+    "axios": "^1.6.8",
     "hono": "^4.2.6",
     "prisma": "^5.12.1"
   },

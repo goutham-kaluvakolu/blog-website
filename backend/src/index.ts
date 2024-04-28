@@ -15,17 +15,8 @@ const app = new Hono<{
   }
 }>();
 
-// app.use('/*', async (c, next) => {
-//   console.log("first**************** middle ware")
-
-//   next()
-// })
 app.use('/api/*', cors())
 app.route("/api/v1/user",userRouter);
 app.route("/api/v1/blog",blogRouter);
-
-
-
-
 
 export default app

@@ -1,35 +1,19 @@
-import { useEffect, useState } from "react"
-import axios from "axios";
-import { BACKEND_URL } from "../config";
+
 import BlogCard from "../components/BlogCard";
+import Blogskeleton from "../components/Blogskeleton";
+import { useBlogs } from "../hooks";
 const Blogs = () => {
-    const [blogs, setBlogs] = useState([])
-
-    useEffect(() => {
-        const fetchData = async () => {
-            //   setLoading(true);
-            try {
-                const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
-                    headers: {
-                        'Authorization': `bearer ${localStorage.getItem("jwt")}`
-                    }
-                });
-                console.log(response.data.blogs)
-                setBlogs(response.data.blogs);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        fetchData();
-    }, []);
+    const {loading,blogs} = useBlogs()
     return (
-        <div>Blogs
+        
+        <div className="flex flex-col items-center">
+            {loading&&(<div className="w-full flex flex-col items-center"><Blogskeleton/><Blogskeleton/><Blogskeleton/><Blogskeleton/></div>)}
             {blogs.map((blog: {
-                "authorId": string,
+                "authorName": string,
                 "content": string,
                 "title": string
-            }) => <BlogCard authorId={blog.authorId} content={blog.content} title={blog.title} />)}
+                "id":string
+            }) => <BlogCard id={blog.id} key={blog.id} authorName={blog.authorName} content={blog.content} title={blog.title} />)}
         </div>
 
     )

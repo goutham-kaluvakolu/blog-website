@@ -31,7 +31,8 @@ export const userRouter = new Hono<{
       const user = await prisma.user.create({
         data: {
           email: body.email,
-          password: body.password
+          password: body.password,
+          name:body.username
         }
       })
     

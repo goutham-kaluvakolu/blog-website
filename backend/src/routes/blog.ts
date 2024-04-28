@@ -24,7 +24,7 @@ blogRouter.use('/*', async (c, next) => {
     const vaidUser = await verify(token_jwt, secret)
     if (vaidUser.id) {
         c.set('userId', vaidUser.id)
-        console.log("***middile*******")
+        console.log("***middile accept vaild user*******")
         await next()
     }
     else {
@@ -100,8 +100,29 @@ blogRouter.get('/bulk', async (c) => {
 
     // const body = await c.req.json()
     try {
-        const blogs = await prisma.post.findMany()
-        return c.json({ blogs })
+        const rawBlogs = await prisma.post.findMany({
+            select: {
+              id: true,
+              title: true,
+              content: true,
+              published: true,
+              author: {
+                select: {
+                  name: true
+                }
+              }
+            }
+          });
+          const blogs = rawBlogs.map(blog => ({
+            id: blog.id,
+            title: blog.title,
+            content: blog.content,
+            published: blog.published,
+            authorName: blog.author.name ? blog.author.name : "unknown" 
+          }));
+          
+          return c.json(blogs)
+        
     }
     catch (e) {
         c.status(404)
@@ -117,17 +138,39 @@ blogRouter.get('/:id', async (c) => {
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
 
-    const body = await c.req.json()
+    console.log("****/:id*******")
+
+    // const body = await c.req.json()
     const blogid= c.req.param("id")
+    console.log("blogid",blogid)
+    // console.log("body",body)
+
     try {
         const blog = await prisma.post.findFirst({
             where: {
                 id: blogid
             }
-        })
-        return c.json({ blog })
+        });
+    
+        // If blog exists, fetch the corresponding user using the authorId
+        if (blog) {
+            const userName = await prisma.user.findFirst({
+                where: {
+                    id: blog.authorId
+                }
+            });
+    
+            // Determine the user name or set it to "Anonymous" if not found
+            const authorName = userName ? userName.name : 'Anonymous';
+    
+            // Add user name to the blog object
+            const blogWithUserName = { ...blog, authorName };
+    
+            // Return the blog object with user name in the response
+            return c.json({ blog: blogWithUserName });
+    
 
-    }
+    }}
     catch (e) {
         c.status(404)
         return c.json({

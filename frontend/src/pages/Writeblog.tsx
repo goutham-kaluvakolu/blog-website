@@ -9,7 +9,7 @@ const Writeblog = () => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
 
-  const handlePublish = (e) => {
+  const handlePublish = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     axios.post(`${BACKEND_URL}/api/v1/blog`,
     {

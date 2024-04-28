@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Auth from '../components/Auth'
 import Qoute from '../components/Qoute'
 

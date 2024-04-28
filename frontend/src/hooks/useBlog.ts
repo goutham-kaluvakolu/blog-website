@@ -7,12 +7,17 @@ type blogProps = {
     authorId:string,
     authorName:string,
     content:string,
-    published:string,
+    published:boolean,
     title:string
 }
 export const useBlog = (blogId: string) => {
     const [loading, setLoading] = useState(true)
-    const [blog, setBlog] = useState<blogProps>([])
+    const [blog, setBlog] = useState<blogProps>({id:"unknown",
+        authorId:"notfound",
+        authorName:"NA",
+        content:"NA",
+        published:false,
+        title:"NA"})
 
     useEffect(() => {
         const fetchData = async () => {

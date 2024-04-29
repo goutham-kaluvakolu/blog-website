@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../config"
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,15 @@ const Writeblog = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
+
+  useEffect(()=>{
+    if (localStorage.getItem("jwt")){
+      
+    }
+    else{
+      navigate("/signin")
+    }
+  },[])
 
   const handlePublish = (e: { preventDefault: () => void; }) => {
     e.preventDefault();

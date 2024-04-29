@@ -4,7 +4,7 @@ import Avatar from "./Avatar"
 const Appbar = () => {
     return (
         <div className="flex justify-between p-4 border-b-2 mb-4">
-            <div>Medium</div>
+            <Link to="/blogs"><div>Medium</div></Link>
             <div className="flex justify-between">
             <Link to="/writeblog" >Write</Link>
             <Avatar authorName="trash hero" />

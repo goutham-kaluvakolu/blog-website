@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../config";
+import { useNavigate } from "react-router-dom";
+
 
 export const useBlogs = () => {
     const [loading,setLoading] = useState(true)
     const [blogs, setBlogs] = useState([])
+    const navigate=useNavigate()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -20,6 +23,7 @@ export const useBlogs = () => {
 
             } catch (error) {
                 console.log(error);
+                navigate("/sigin")
             }
         }
 

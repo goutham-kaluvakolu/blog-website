@@ -1,7 +1,7 @@
 import Avatar from "../components/Avatar";
 import Dot from "../components/Dot";
 import { useBlog } from "../hooks"
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getReadTime } from "../utilites";
 
 const blog = () => {
@@ -25,7 +25,7 @@ const blog = () => {
         <Avatar authorName={blog.authorName} width="w-10" hieght="h-10"/>
         {/* user info */}
         <div className="ml-2">
-          <div className="flex items-center"><div className=" font-bold mr-2">{blog.authorName}</div><Dot/><div className="text-teal-600 font-medium ml-2">Follow</div></div>
+          <div className="flex items-center"><div className=" font-bold mr-2"><Link to={`/Author/${blog.authorId}`}>{blog.authorName}</Link></div><Dot/><div className="text-teal-600 font-medium ml-2">Follow</div></div>
           <div className="flex items-center text-slate-500 font-medium"><div className="mr-2">{`${time} min`}</div><Dot/><div className="ml-2">pubished date</div></div>
         </div>
       </div>

@@ -21,18 +21,28 @@ blogRouter.use('/*', async (c, next) => {
     const token_jwt: string = user_jwt.split(" ")[1]
     const secret = c.env.JWT_SECRET
 
-    const vaidUser = await verify(token_jwt, secret)
-    if (vaidUser.id) {
-        c.set('userId', vaidUser.id)
-        console.log("***middile accept vaild user*******")
-        await next()
+    try{
+        const vaidUser = await verify(token_jwt, secret)
+        console.log("hvghv",vaidUser)
+        if (vaidUser.id) {
+            c.set('userId', vaidUser.id)
+            console.log("***middile accept vaild user*******")
+            await next()
+        }
+        else {
+            c.status(403)
+            return c.json({
+                error: "login again"
+            })
+        }
     }
-    else {
-        c.status(403)
+    catch{
+        c.status(401)
         return c.json({
-            error: "login again"
+            error: "jwt expired"
         })
     }
+
 
 })
 
@@ -45,13 +55,13 @@ blogRouter.post('/', async (c) => {
 
     const body = await c.req.json()
     const sucess = createBlogInput.safeParse(body)
-    if (!sucess.success){
-      c.status(411)
-      return c.json({
-        error:"incorrect inputs"
-      })
+    if (!sucess.success) {
+        c.status(411)
+        return c.json({
+            error: "incorrect inputs"
+        })
     }
-  
+
     const blog = await prisma.post.create({
         data: {
             title: body.title,
@@ -72,12 +82,12 @@ blogRouter.put('/', async (c) => {
 
     const body = await c.req.json()
     const sucess = updateBlogInput.safeParse(body)
-    if (!sucess.success){
+    if (!sucess.success) {
         c.status(411)
         return c.json({
-          error:"incorrect inputs"
+            error: "incorrect inputs"
         })
-      }
+    }
     const blog = await prisma.post.update({
         where: {
             id: body.id
@@ -102,27 +112,27 @@ blogRouter.get('/bulk', async (c) => {
     try {
         const rawBlogs = await prisma.post.findMany({
             select: {
-              id: true,
-              title: true,
-              content: true,
-              published: true,
-              author: {
-                select: {
-                  name: true
+                id: true,
+                title: true,
+                content: true,
+                published: true,
+                author: {
+                    select: {
+                        name: true
+                    }
                 }
-              }
             }
-          });
-          const blogs = rawBlogs.map(blog => ({
+        });
+        const blogs = rawBlogs.map(blog => ({
             id: blog.id,
             title: blog.title,
             content: blog.content,
             published: blog.published,
-            authorName: blog.author.name ? blog.author.name : "unknown" 
-          }));
-          
-          return c.json(blogs)
-        
+            authorName: blog.author.name ? blog.author.name : "unknown"
+        }));
+
+        return c.json(blogs)
+
     }
     catch (e) {
         c.status(404)
@@ -141,8 +151,8 @@ blogRouter.get('/:id', async (c) => {
     console.log("****/:id*******")
 
     // const body = await c.req.json()
-    const blogid= c.req.param("id")
-    console.log("blogid",blogid)
+    const blogid = c.req.param("id")
+    console.log("blogid", blogid)
     // console.log("body",body)
 
     try {
@@ -151,7 +161,7 @@ blogRouter.get('/:id', async (c) => {
                 id: blogid
             }
         });
-    
+
         // If blog exists, fetch the corresponding user using the authorId
         if (blog) {
             const userName = await prisma.user.findFirst({
@@ -159,18 +169,19 @@ blogRouter.get('/:id', async (c) => {
                     id: blog.authorId
                 }
             });
-    
+
             // Determine the user name or set it to "Anonymous" if not found
             const authorName = userName ? userName.name : 'Anonymous';
-    
+
             // Add user name to the blog object
             const blogWithUserName = { ...blog, authorName };
-    
+
             // Return the blog object with user name in the response
             return c.json({ blog: blogWithUserName });
-    
 
-    }}
+
+        }
+    }
     catch (e) {
         c.status(404)
         return c.json({
@@ -180,4 +191,45 @@ blogRouter.get('/:id', async (c) => {
 
 })
 
+
+blogRouter.get('/user/:id', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+    console.log("****user/:id*******")
+
+    // const body = await c.req.json()
+    const authorId = c.req.param("id")
+    console.log("authorId", authorId)
+    // console.log("body",body)
+
+    try {
+        const blogs = await prisma.post.findMany({
+            where: {
+                authorId: authorId
+            }
+        });
+        const authorName = await prisma.user.findFirst({
+            where: {
+                id: authorId
+            },
+            select: {
+                name:true
+            }
+        });
+
+        return c.json({
+            blogs,authorName
+        })
+
+    }
+    catch (e) {
+        c.status(404)
+        return c.json({
+            error: "blog not found"
+        })
+    }
+
+})
 

@@ -35,9 +35,11 @@ export const userRouter = new Hono<{
           name:body.username
         }
       })
-    
+      const now = Math.floor(Date.now() / 1000); // Current time in seconds
+      const exp = now + 1800; // Adding 60 seconds (1 minute)
       const payload = {
         id: user.id,
+        exp:exp
       }
       const secret = c.env.JWT_SECRET
       const token = await sign(payload, secret)
@@ -82,11 +84,16 @@ export const userRouter = new Hono<{
         error: "user not found"
       })
     }
-  
-    const payload = { id: user.id }
+    const now = Math.floor(Date.now() / 1000); // Current time in seconds
+    const exp = now + 1800; // Adding 60 seconds (1 minute)
+    const payload = {
+      id: user.id,
+      exp:exp
+    }
     const secret = c.env.JWT_SECRET
     const token = await sign(payload, secret)
     return c.json({
       jwt: token
     })
   })
+

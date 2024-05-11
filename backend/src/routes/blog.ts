@@ -118,7 +118,8 @@ blogRouter.get('/bulk', async (c) => {
                 published: true,
                 author: {
                     select: {
-                        name: true
+                        name: true,
+                        id:true
                     }
                 }
             }
@@ -128,7 +129,8 @@ blogRouter.get('/bulk', async (c) => {
             title: blog.title,
             content: blog.content,
             published: blog.published,
-            authorName: blog.author.name ? blog.author.name : "unknown"
+            authorName: blog.author.name ? blog.author.name : "unknown",
+            authorId: blog.author.id,
         }));
 
         return c.json(blogs)

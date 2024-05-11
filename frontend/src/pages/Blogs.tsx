@@ -12,8 +12,9 @@ const Blogs = () => {
                 "authorName": string,
                 "content": string,
                 "title": string
-                "id":string
-            }) => <BlogCard id={blog.id} key={blog.id} authorName={blog.authorName} content={blog.content} title={blog.title} />)}
+                "id":string,
+                "authorId":string
+            }) => <BlogCard id={blog.id} key={blog.id} authorName={blog.authorName} content={blog.content} title={blog.title} authorId={blog.authorId}/>)}
         </div>
 
     )

@@ -5,12 +5,13 @@ type blogcardProps = {
     "id":string
     "authorName": string,
     "content": string,
-    "title": string
+    "title": string,
+    "authorId"?:string
 }
 
 
 
-const BlogCard = ({ id ,authorName, content, title }: blogcardProps) => {
+const BlogCard = ({ id ,authorName, content, title,authorId }: blogcardProps) => {
     return (
         <div className="border-b-2 mb-2 w-2/3 h-28 ">
             <Link to={`/blog/${id}`}>
@@ -19,7 +20,7 @@ const BlogCard = ({ id ,authorName, content, title }: blogcardProps) => {
             <div className="flex items-center ">
                 <Avatar authorName={authorName}/>
                 {/* name */}
-                <span className="mr-2">{authorName}</span>
+                <Link to={`/Author/${authorId}`} className="mr-2">{authorName}</Link>
                 {/* dot */}
                 <span className="mr-2 pb-2">.</span>
                 {/* date */}

@@ -7,19 +7,78 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       String   @id @default(uuid())
-  email    String   @unique
-  name     String?
-  password String
-  posts    Post[]
+model Post {
+  id         String     @id @default(uuid())
+  title      String
+  content    String
+  likes      Int        @default(0)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now())
+  shareCount Int        @default(0)
+  comments   Comment[]
+  author     User       @relation(fields: [authorId], references: [id]) // Added name and opposite field
+  authorId   String
+  tags       Tag[]
+  bookmarks  Bookmark[]
+  TagPost    TagPost[]
+  published  Boolean  @default(false)
 }
 
-model Post {
-  id        String   @id @default(uuid())
-  title     String
-  content   String
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
+model Comment {
+  content  String
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+  post     Post   @relation(fields: [postId], references: [id])
+  postId   String
+
+  @@id([postId, authorId])
+}
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  name      String?
+  password  String
+  posts     Post[]
+  bookmarks Bookmark[]
+  tags      Tag[]
+  comments  Comment[]
+  TagUser   TagUser[]
+}
+
+model Bookmark {
+  post     Post   @relation(fields: [postId], references: [id])
+  postId   String
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  @@id([postId, authorId])
+}
+
+model Tag {
+  id      String    @id @default(uuid())
+  name    String    @unique
+  users   User[] // Added relation field
+  Post    Post?     @relation(fields: [postId], references: [id])
+  postId  String?
+  TagUser TagUser[]
+  TagPost TagPost[]
+}
+
+model TagUser {
+  tag    Tag    @relation(fields: [tagId], references: [id])
+  tagId  String
+  user   User   @relation(fields: [userID], references: [id])
+  userID String
+
+  @@id([tagId, userID])
+}
+
+model TagPost {
+  tag    Tag    @relation(fields: [tagId], references: [id])
+  tagId  String
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+
+  @@id([postId, tagId])
 }

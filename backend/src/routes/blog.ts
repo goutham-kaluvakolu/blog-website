@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { decode, sign, verify } from 'hono/jwt'
-import { PrismaClient } from '@prisma/client/edge'
+import { Post, PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { createBlogInput, updateBlogInput } from '@goutham4331/blog-website-commons';
 
@@ -66,7 +66,8 @@ blogRouter.post('/', async (c) => {
         data: {
             title: body.title,
             content: body.content,
-            authorId: userId
+            authorId: userId,
+            
         }
     })
     return c.json({
@@ -116,6 +117,9 @@ blogRouter.get('/bulk', async (c) => {
                 title: true,
                 content: true,
                 published: true,
+                updatedAt: true,
+                likes:true,
+                createdAt:true,
                 author: {
                     select: {
                         name: true,
@@ -131,6 +135,9 @@ blogRouter.get('/bulk', async (c) => {
             published: blog.published,
             authorName: blog.author.name ? blog.author.name : "unknown",
             authorId: blog.author.id,
+            likes:blog.likes,
+            updatedAt:blog.updatedAt?blog.updatedAt:blog.createdAt
+
         }));
 
         return c.json(blogs)

@@ -7,12 +7,37 @@ type blogcardProps = {
     "authorName": string,
     "content": string,
     "title": string,
-    "authorId"?: string
+    "authorId"?: string,
+    "blogDate":string,
+    "bookMark"?:boolean
+}
+
+const getDate=(inputDate:string)=>{
+
+// Create a new Date object
+const date = new Date(inputDate);
+
+// Array of month names
+const monthNames = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
+// Get the day, month, and year
+const day = date.getDate();
+const monthIndex = date.getMonth();
+const year = date.getFullYear();
+
+// Format the date
+const formattedDate = `${day} ${monthNames[monthIndex]} ${year}`;
+
+// console.log(formattedDate); // Output: "11 May 2024"
+return formattedDate
+
 }
 
 
-
-const BlogCard = ({ id, authorName, content, title, authorId }: blogcardProps) => {
+const BlogCard = ({ id, authorName, content, title, authorId,blogDate,bookMark }: blogcardProps) => {
     return (
         <div className="border-b-2 w-2/3 h-38 mt-6 ">
             {/* header */}
@@ -24,7 +49,7 @@ const BlogCard = ({ id, authorName, content, title, authorId }: blogcardProps) =
                 {/* dot */}
                 <span className="mr-2 pb-2">.</span>
                 {/* date */}
-                <span className="text-stone-500">3 dec 2224</span>
+                <span className="text-stone-500">{getDate(blogDate)}</span>
             </div>
             <Link to={`/blog/${id}`}>
                 {/* title */}
@@ -39,7 +64,7 @@ const BlogCard = ({ id, authorName, content, title, authorId }: blogcardProps) =
             {/* footer */}
             <div className="flex flex-row-reverse mb-6">
                 {/* icons */}
-                <Bookmark />
+                <Bookmark blogId={id} bookMark={bookMark||false} />
 
             </div>
 

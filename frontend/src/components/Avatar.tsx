@@ -8,11 +8,10 @@
     console.log(authorName)
     const [firstName, secondName] = authorName?authorName.split(" "):"Anonymous".split(" ");
 
-    const initials = (firstName ? firstName[0] : '') + (secondName ? secondName[0] : '');
+    const initials = (firstName ? firstName[0] : '').toUpperCase() + (secondName ? secondName[0] : '').toUpperCase();
 
     return (
-      
-        <div className={`relative inline-flex items-center justify-center ${width} ${hieght} mr-1 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600`}>
+        <div className={`relative inline-flex items-center justify-center ${width} ${hieght} mr-1 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 cursor-pointer`}>
             <span className="font-medium text-gray-600 dark:text-gray-300">{initials}</span>
         </div>
     );

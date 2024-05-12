@@ -21,14 +21,15 @@ const Appbar = () => {
             <Link to="/blogs"><div>Medium</div></Link>
             <div className="flex justify-between">
                 {visible && <Link to="/writeblog" >Write</Link>}
-                <Avatar authorName="trash hero" />
+                <Link to={`/Account/${localStorage.getItem('userId')}`} className="mr-2"><Avatar authorName={localStorage.getItem('userName')||"unknown"} /></Link>
                 <div onClick={() => {
                     localStorage.removeItem('jwt');
+                    localStorage.removeItem('userName');
+                    localStorage.removeItem('userId');
                     navigate("/signin");
                 }}>
                     Logout
                 </div>
-
             </div>
         </div>
     )

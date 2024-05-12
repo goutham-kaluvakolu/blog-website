@@ -33,6 +33,8 @@ const Auth = ({ type }: { type: string }) => {
             const response= await axios.post(url,postInputs)
             console.log("response",response)
             localStorage.setItem("jwt",response.data.jwt)
+            localStorage.setItem("userId",response.data.id)
+            localStorage.setItem("userName",response.data.name)
             navigate("/blogs")
             console.log(localStorage.getItem("jwt"))
         }

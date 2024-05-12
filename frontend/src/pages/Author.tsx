@@ -36,7 +36,7 @@ const Author = () => {
 
             <div className="border-r-4 w-2/3">
                 {blogs.map((blog) => {
-                    return <BlogCard id={blog.id} authorName={authorName} content={blog.content} title={blog.title} />;
+                    return <BlogCard id={blog.id} authorName={authorName} content={blog.content} title={blog.title} authorId={blog.authorId} blogDate={blog.updatedAt}/>;
                 })}
             </div>
         </div>
@@ -44,3 +44,4 @@ const Author = () => {
 }
 
 export default Author
+

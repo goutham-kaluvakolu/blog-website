@@ -4,6 +4,7 @@ import Blogskeleton from "../components/Blogskeleton";
 import { useBlogs } from "../hooks";
 const Blogs = () => {
     const {loading,blogs} = useBlogs()
+    
     return (
         
         <div className="flex flex-col items-center">
@@ -13,8 +14,11 @@ const Blogs = () => {
                 "content": string,
                 "title": string
                 "id":string,
-                "authorId":string
-            }) => <BlogCard id={blog.id} key={blog.id} authorName={blog.authorName} content={blog.content} title={blog.title} authorId={blog.authorId}/>)}
+                "authorId":string,
+                "updatedAt":string
+            }) => 
+
+            <BlogCard id={blog.id} key={blog.id} authorName={blog.authorName} content={blog.content} title={blog.title} authorId={blog.authorId} blogDate={blog.updatedAt}/>)}
         </div>
 
     )

@@ -10,7 +10,9 @@ export const useUserBlogs = (authorId: string) => {
     authorName:"NA",
     content:"NA",
     published:false,
-    title:"NA"}])
+    title:"NA",
+    updatedAt:"2024-05-11T21:39:36.736Z"
+}])
     const [authorName, setAuthorName] = useState("UnKnown")
 
 

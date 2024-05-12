@@ -21,9 +21,9 @@ blogRouter.use('/*', async (c, next) => {
     const token_jwt: string = user_jwt.split(" ")[1]
     const secret = c.env.JWT_SECRET
 
-    try{
+    try {
         const vaidUser = await verify(token_jwt, secret)
-        console.log("hvghv",vaidUser)
+        console.log("hvghv", vaidUser)
         if (vaidUser.id) {
             c.set('userId', vaidUser.id)
             console.log("***middile accept vaild user*******")
@@ -36,7 +36,7 @@ blogRouter.use('/*', async (c, next) => {
             })
         }
     }
-    catch{
+    catch {
         c.status(401)
         return c.json({
             error: "jwt expired"
@@ -67,7 +67,7 @@ blogRouter.post('/', async (c) => {
             title: body.title,
             content: body.content,
             authorId: userId,
-            
+
         }
     })
     return c.json({
@@ -109,37 +109,54 @@ blogRouter.get('/bulk', async (c) => {
     }).$extends(withAccelerate())
     console.log("***bulk*******")
 
-    // const body = await c.req.json()
     try {
         const rawBlogs = await prisma.post.findMany({
-            select: {
-                id: true,
-                title: true,
-                content: true,
-                published: true,
-                updatedAt: true,
-                likes:true,
-                createdAt:true,
+            include: {
                 author: {
                     select: {
                         name: true,
-                        id:true
+                        id: true
                     }
                 }
             }
         });
         const blogs = rawBlogs.map(blog => ({
-            id: blog.id,
-            title: blog.title,
-            content: blog.content,
-            published: blog.published,
+            ...blog,
             authorName: blog.author.name ? blog.author.name : "unknown",
             authorId: blog.author.id,
-            likes:blog.likes,
-            updatedAt:blog.updatedAt?blog.updatedAt:blog.createdAt
-
+            updatedAt: blog.updatedAt ? blog.updatedAt : blog.createdAt,
         }));
 
+        return c.json(blogs)
+
+    }
+    catch (e) {
+        c.status(404)
+        return c.json({
+            error: "No blogs yet"
+        })
+    }
+
+})
+
+
+blogRouter.get('/bookmarks', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+    console.log("***bookmarks*******")
+    
+    try {
+        const blogs = await prisma.post.findMany({
+            where: {
+              bookmarks: {
+                some: {
+                  authorId: c.get("userId")
+                }
+              }
+            }
+          });
+          
         return c.json(blogs)
 
     }
@@ -208,10 +225,8 @@ blogRouter.get('/user/:id', async (c) => {
 
     console.log("****user/:id*******")
 
-    // const body = await c.req.json()
     const authorId = c.req.param("id")
     console.log("authorId", authorId)
-    // console.log("body",body)
 
     try {
         const blogs = await prisma.post.findMany({
@@ -224,12 +239,12 @@ blogRouter.get('/user/:id', async (c) => {
                 id: authorId
             },
             select: {
-                name:true
+                name: true
             }
         });
 
         return c.json({
-            blogs,authorName
+            blogs, authorName
         })
 
     }
@@ -241,4 +256,62 @@ blogRouter.get('/user/:id', async (c) => {
     }
 
 })
+
+
+blogRouter.post('/bookmark', async (c) => {
+    const userId = c.get("userId")
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+    const body = await c.req.json()
+
+
+    if (body.bookMark) {
+        try {
+            const blog = await prisma.bookmark.create({
+                data: {
+                    postId: body.blogId,
+                    authorId: userId,
+                }
+            })
+            return c.json({
+                id: blog
+            })
+        }
+        catch {
+            c.status(502)
+            return c.json({
+                error: "could not insert"
+            })
+
+        }
+
+    }
+    else {
+        try {
+            const blog = await prisma.bookmark.delete({
+                where: {
+                    postId_authorId: {
+                        postId: body.blogId,
+                        authorId: userId,
+                    }
+                }
+            })
+            return c.json({
+                id: blog
+            })
+
+        }
+        catch {
+            c.status(502)
+            return c.json({
+                error: "could not delete"
+            })
+        }
+
+    }
+
+})
+
 

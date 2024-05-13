@@ -112,7 +112,7 @@ blogRouter.post('/', async (c) => {
             }
         });
         return c.json({
-            resblog
+            blog:resblog
         });
     } catch (error) {
         console.error("Error creating blog post:", error);

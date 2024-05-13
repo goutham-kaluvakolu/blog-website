@@ -57,7 +57,7 @@ const Writeblog = () => {
         <div className="flex flex-row-reverse mb-4">
           <button className="bg-green-100 text-white text-xs font-medium me-2 px-3 py-2 rounded dark:bg-green-900 dark:text-white"
             onClick={handlePublish}
-          >publish</button>
+          >Next</button>
         </div>
         {/* <Tags/> */}
         <input type="text" className="w-full border-b-2 p-4 text-5xl focus:border-transparent focus:outline-none " placeholder="Title"

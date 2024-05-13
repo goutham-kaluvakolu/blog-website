@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Badge from "./Badge";
 import { useRecoilState } from "recoil";
 import { blogStateAtom } from "../atoms";
-import { useTags } from "../hooks/useTags";
 
 
 

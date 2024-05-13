@@ -2,31 +2,28 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
-type blogProps= {
-    "authorName": string,
-    "content": string,
-    "title": string
-    "id":string,
-    "authorId":string,
-    "updatedAt":string,
-    "tagNames":string[]
-}
+// type tagsProps ={
+//     id:string,
+//     name:string
+// }
 
-export const useBlogs = () => {
+export const useTags = () => {
     const [loading,setLoading] = useState(true)
-    const [blogs, setBlogs] = useState<blogProps[]>([])
+    const [tags, setTags] = useState<string[]>([])
     const navigate=useNavigate()
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
+                const response = await axios.get(`${BACKEND_URL}/api/v1/tag/all`, {
                     headers: {
                         'Authorization': `bearer ${localStorage.getItem("jwt")}`
                     }
                 });
                 console.log(response.data)
-                setBlogs(response.data);
+                // setTags(response.data.tags);
+                const x= response.data.tags.map((tag:{name:string})=>{return tag.name})
+                setTags(x);
                 setLoading(false);
 
             } catch (error) {
@@ -39,5 +36,5 @@ export const useBlogs = () => {
     }, []);
 
 
-  return {loading,blogs}
+  return {loading,tags}
 }

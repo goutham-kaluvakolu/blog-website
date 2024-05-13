@@ -17,7 +17,7 @@ const Library = () => {
         "updatedAt":string
     }) => 
 
-    <BlogCard id={blog.id} key={blog.id} authorName={blog.authorName} content={blog.content} title={blog.title} authorId={blog.authorId} blogDate={blog.updatedAt} bookMark={true}/>)}
+    <BlogCard id={blog.id} key={blog.id} authorName={blog.authorName} content={blog.content} title={blog.title} authorId={blog.authorId} blogDate={blog.updatedAt} bookMark={true} tags={[]}/>)}
 </div>
   )
 }

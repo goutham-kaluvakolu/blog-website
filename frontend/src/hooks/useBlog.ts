@@ -3,21 +3,31 @@ import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../config";
 
 type blogProps = {
+    createdAt: string,
+    updatedAt:string,
     id:string,
     authorId:string,
     authorName:string,
     content:string,
     published:boolean,
-    title:string
+    title:string,
+    likes:number,
+    shareCount:number,
 }
 export const useBlog = (blogId: string) => {
     const [loading, setLoading] = useState(true)
-    const [blog, setBlog] = useState<blogProps>({id:"unknown",
-        authorId:"notfound",
-        authorName:"NA",
-        content:"NA",
-        published:false,
-        title:"NA"})
+    const [blog, setBlog] = useState<blogProps>({
+        createdAt: "string",
+        updatedAt:"string",
+        id:"string",
+        authorId:"string",
+        authorName:"string",
+        content:"string",
+        published:true,
+        title:"string",
+        likes:0,
+        shareCount:0,
+    })
 
     useEffect(() => {
         const fetchData = async () => {

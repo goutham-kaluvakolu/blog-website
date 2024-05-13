@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
 import Avatar from "./Avatar"
 import Bookmark from "./Bookmark"
+import GenBadge from "./GenBadge"
+import { getDate, getReadTime } from "../utilites"
+
 
 type blogcardProps = {
     "id": string
@@ -8,63 +11,52 @@ type blogcardProps = {
     "content": string,
     "title": string,
     "authorId"?: string,
-    "blogDate":string,
-    "bookMark"?:boolean
-}
-
-const getDate=(inputDate:string)=>{
-
-// Create a new Date object
-const date = new Date(inputDate);
-
-// Array of month names
-const monthNames = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-];
-
-// Get the day, month, and year
-const day = date.getDate();
-const monthIndex = date.getMonth();
-const year = date.getFullYear();
-
-// Format the date
-const formattedDate = `${day} ${monthNames[monthIndex]} ${year}`;
-
-// console.log(formattedDate); // Output: "11 May 2024"
-return formattedDate
-
+    "blogDate": string,
+    "bookMark"?: boolean,
+    "tags": string[]
 }
 
 
-const BlogCard = ({ id, authorName, content, title, authorId,blogDate,bookMark }: blogcardProps) => {
+
+const BlogCard = ({ id, authorName, content, title, authorId, blogDate, bookMark, tags }: blogcardProps) => {
     return (
-        <div className="border-b-2 w-2/3 h-38 mt-6 ">
+        <div className="border-b-2 w-full h-38 mt-6 md:w-2/3 ">
             {/* header */}
             <div></div>
             <div className="flex items-center ">
                 <Avatar authorName={authorName} />
                 {/* name */}
-                <Link to={`/Author/${authorId}`} className="mr-2">{authorName}</Link>
+                <Link to={`/Author/${authorId}`} className="mr-1 font-medium ">{authorName}</Link>
                 {/* dot */}
-                <span className="mr-2 pb-2">.</span>
+                <span className="mr-1 pb-2">.</span>
                 {/* date */}
-                <span className="text-stone-500">{getDate(blogDate)}</span>
+                <span className="text-stone-500 text-sm">{getDate(blogDate)}</span>
             </div>
-            <Link to={`/blog/${id}`}>
+            <div className=" mb-6"><Link to={`/blog/${id}`} className="bg-rose-200">
                 {/* title */}
                 <div className="font-bold text-3xl">
                     {title}
                 </div>
                 {/* few lines */}
                 <article className="text-ellipsis overflow-hidden text-slate-600 text-base">
-                    {content}
+                    {content.substring(0, 1000) + '...'}
                 </article>
-            </Link>
+            </Link></div>
+
             {/* footer */}
-            <div className="flex flex-row-reverse mb-6">
+            <div className="flex flex-row justify-between items-center mb-6">
                 {/* icons */}
-                <Bookmark blogId={id} bookMark={bookMark||false} />
+                <div className="flex items-center">
+                    {tags.map((tag) => {
+                        return (
+                            <GenBadge name={tag} />
+                        )
+                    })}
+                    <div className="text-sm text-slate-500">{`${getReadTime(content)} min read`}</div>
+                </div>
+
+
+                <Bookmark blogId={id} bookMark={bookMark || false} />
 
             </div>
 

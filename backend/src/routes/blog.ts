@@ -54,25 +54,74 @@ blogRouter.post('/', async (c) => {
     }).$extends(withAccelerate())
 
     const body = await c.req.json()
-    const sucess = createBlogInput.safeParse(body)
-    if (!sucess.success) {
-        c.status(411)
+    try {
+        // Create the blog post
+        const blog = await prisma.post.create({
+            data: {
+                title: body.title,
+                content: body.content,
+                authorId: userId,
+            }
+        });
+        console.log("blog",blog)
+        const tags = body.tags
+        // If tags are provided, associate them with the blog post
+        if (tags && tags.length > 0) {
+            console.log(tags)
+            await Promise.all(tags.map(async (tag: string) => {
+                // Check if the tag already exists
+                console.log(tag)
+                let existingTag = await prisma.tag.findUnique({
+                    where: { name: tag }
+                });
+
+                // If the tag doesn't exist, create it
+                if (!existingTag) {
+                    console.log("creating",tags)
+                    existingTag = await prisma.tag.create({
+                        data: {
+                            name: tag
+                        }
+                    });
+                }
+                
+                console.log(existingTag)
+                // Associate the tag with the blog post
+                await prisma.tagPost.create({
+                    data: {
+                        postId: blog.id,
+                        tagId: existingTag.id
+                    }
+                });
+            }));
+            
+        }
+
+        const resblog = await prisma.post.findFirst({
+            where: {
+                id: blog.id
+            },
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                        id: true
+                    }
+                },
+                TagPost: true
+            }
+        });
         return c.json({
-            error: "incorrect inputs"
-        })
+            resblog
+        });
+    } catch (error) {
+        console.error("Error creating blog post:", error);
+        c.status(500)
+        c.json({
+            error: "An error occurred while creating the blog post."
+        });
     }
 
-    const blog = await prisma.post.create({
-        data: {
-            title: body.title,
-            content: body.content,
-            authorId: userId,
-
-        }
-    })
-    return c.json({
-        id: blog.id
-    })
 })
 
 blogRouter.put('/', async (c) => {
@@ -109,8 +158,15 @@ blogRouter.get('/bulk', async (c) => {
     }).$extends(withAccelerate())
     console.log("***bulk*******")
 
+    const count = 5 // Number of latest blog posts to fetch
+
     try {
-        const rawBlogs = await prisma.post.findMany({
+        // Fetch the latest n blog posts
+        const latestBlogs = await prisma.post.findMany({
+            take: count,
+            orderBy: {
+                createdAt: 'desc' // Order by creation date in descending order to get the latest posts
+            },
             include: {
                 author: {
                     select: {
@@ -120,21 +176,91 @@ blogRouter.get('/bulk', async (c) => {
                 }
             }
         });
-        const blogs = rawBlogs.map(blog => ({
-            ...blog,
-            authorName: blog.author.name ? blog.author.name : "unknown",
-            authorId: blog.author.id,
-            updatedAt: blog.updatedAt ? blog.updatedAt : blog.createdAt,
-        }));
 
-        return c.json(blogs)
+        // Initialize an array to store blog info with tag names
+        const blogInfoArray = [];
 
-    }
-    catch (e) {
-        c.status(404)
+        // Iterate over each latest blog post
+        for (const blog of latestBlogs) {
+            // Find tag IDs associated with the blog post
+            const tagIds = await prisma.tagPost.findMany({
+                where: {
+                    postId: blog.id
+                },
+                select: {
+                    tagId: true
+                }
+            });
+
+            // Extract tag IDs from the result
+            const tagIdsArray = tagIds.map(tag => tag.tagId);
+
+            // Find tag names corresponding to the tag IDs
+            const tags = await prisma.tag.findMany({
+                where: {
+                    id: {
+                        in: tagIdsArray
+                    }
+                },
+                select: {
+                    name: true
+                }
+            });
+
+            // Extract tag names from the result
+            const tagNames = tags.map(tag => tag.name);
+
+            // Combine blog details with tag names
+            const bloginfo = {
+                ...blog,
+                authorName: blog.author.name ? blog.author.name : "unknown",
+                authorId: blog.author.id,
+                updatedAt: blog.updatedAt ? blog.updatedAt : blog.createdAt,
+                tagNames: tagNames
+            };
+
+            // Push combined blog info to the array
+            blogInfoArray.push(bloginfo);
+        }
+
+        return c.json(blogInfoArray);
+    } catch (e) {
+        c.status(404);
         return c.json({
-            error: "No blogs yet"
-        })
+            error: "No blogs found"
+        });
+    }
+
+})
+blogRouter.get('/tags', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+    const body = await c.req.json()
+
+    console.log("***tags*******",body)
+
+    try {
+        
+        const tag = body.tag
+        console.log("***tags*******", tag,body);
+
+        // Fetch all tags that are similar to the provided tag value
+        const similarTags = await prisma.tag.findMany({
+            where: {
+                name: {
+                    contains: tag // Filter tags that contain the provided tag value
+                }
+            }
+        });
+
+        return c.json(similarTags);
+    } catch (error) {
+        console.error("Error fetching tags:", error);
+         c.status(500)
+        return c.json({
+            error: "An error occurred while fetching tags."
+        });
     }
 
 })
@@ -145,18 +271,18 @@ blogRouter.get('/bookmarks', async (c) => {
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
     console.log("***bookmarks*******")
-    
+
     try {
         const blogs = await prisma.post.findMany({
             where: {
-              bookmarks: {
-                some: {
-                  authorId: c.get("userId")
+                bookmarks: {
+                    some: {
+                        authorId: c.get("userId")
+                    }
                 }
-              }
             }
-          });
-          
+        });
+
         return c.json(blogs)
 
     }
@@ -232,6 +358,14 @@ blogRouter.get('/user/:id', async (c) => {
         const blogs = await prisma.post.findMany({
             where: {
                 authorId: authorId
+            },
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                        id: true
+                    }
+                }
             }
         });
         const authorName = await prisma.user.findFirst({
@@ -242,9 +376,50 @@ blogRouter.get('/user/:id', async (c) => {
                 name: true
             }
         });
+        const blogInfoArray = [];
+        for (const blog of blogs) {
+            // Find tag IDs associated with the blog post
+            const tagIds = await prisma.tagPost.findMany({
+                where: {
+                    postId: blog.id
+                },
+                select: {
+                    tagId: true
+                }
+            });
 
+            // Extract tag IDs from the result
+            const tagIdsArray = tagIds.map(tag => tag.tagId);
+
+            // Find tag names corresponding to the tag IDs
+            const tags = await prisma.tag.findMany({
+                where: {
+                    id: {
+                        in: tagIdsArray
+                    }
+                },
+                select: {
+                    name: true
+                }
+            });
+
+            // Extract tag names from the result
+            const tagNames = tags.map(tag => tag.name);
+
+            // Combine blog details with tag names
+            const bloginfo = {
+                ...blog,
+                authorName: blog.author.name ? blog.author.name : "unknown",
+                authorId: blog.author.id,
+                updatedAt: blog.updatedAt ? blog.updatedAt : blog.createdAt,
+                tags: tagNames
+            };
+
+            // Push combined blog info to the array
+            blogInfoArray.push(bloginfo);
+        }
         return c.json({
-            blogs, authorName
+            blogs:blogInfoArray
         })
 
     }
@@ -315,3 +490,30 @@ blogRouter.post('/bookmark', async (c) => {
 })
 
 
+blogRouter.put('/like', async (c) => {
+    const userId = c.get("userId");
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const body = await c.req.json();
+    console.log("****likes********",body)
+    try {
+        const { blogId, likes } = body;
+        console.log(blogId, likes)
+
+        // Update the like value for the specified blog post
+        const updatedBlog = await prisma.post.update({
+            where: { id: blogId }, // Specify the blog post ID to update
+            data: { likes }, // Update the likes count
+        });
+
+        // Return the updated blog post
+        return c.json({ updatedBlog });
+    } catch (error) {
+        // Handle errors
+        console.error("Error updating user tags:", error);
+         c.status(500)
+         return c.json({error:("Internal Server Error")});
+    }
+});

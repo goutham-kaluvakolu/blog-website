@@ -18,7 +18,6 @@ model Post {
   comments   Comment[]
   author     User       @relation(fields: [authorId], references: [id]) // Added name and opposite field
   authorId   String
-  tags       Tag[]
   bookmarks  Bookmark[]
   TagPost    TagPost[]
   published  Boolean  @default(false)
@@ -59,8 +58,7 @@ model Tag {
   id      String    @id @default(uuid())
   name    String    @unique
   users   User[] // Added relation field
-  Post    Post?     @relation(fields: [postId], references: [id])
-  postId  String?
+ posts Post[] 
   TagUser TagUser[]
   TagPost TagPost[]
 }

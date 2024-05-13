@@ -3,16 +3,22 @@ import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../config";
 
 
+type blogProps = {
+    createdAt: string,
+    updatedAt:string,
+    id:string,
+    authorId:string,
+    authorName:string,
+    content:string,
+    published:boolean,
+    title:string,
+    likes:number,
+    shareCount:number,
+    tags:string[]
+}
 export const useUserBlogs = (authorId: string) => {
     const [loading, setLoading] = useState(true)
-    const [blogs, setBlogs] = useState([{id:"unknown",
-    authorId:"notfound",
-    authorName:"NA",
-    content:"NA",
-    published:false,
-    title:"NA",
-    updatedAt:"2024-05-11T21:39:36.736Z"
-}])
+    const [blogs, setBlogs] = useState<blogProps[]>([])
     const [authorName, setAuthorName] = useState("UnKnown")
 
 
@@ -26,7 +32,7 @@ export const useUserBlogs = (authorId: string) => {
                 })
                 console.log(response.data)
                 setBlogs(response.data.blogs);
-                setAuthorName(response.data.authorName.name)
+                setAuthorName(response.data.blogs.authorName)
                 setLoading(false);
 
             } catch (error) {

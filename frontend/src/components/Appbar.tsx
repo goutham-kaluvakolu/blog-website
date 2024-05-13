@@ -17,11 +17,10 @@ const Appbar = () => {
     }, [])
 
     return (
-        <div className="flex justify-between p-4 border-b-2 mb-4">
-            <Link to="/blogs"><div>Medium</div></Link>
-            <div className="flex justify-between">
+        <div className="flex justify-between p-4 border-b-2 ">
+            <Link to="/blogs"><div className="font-bold w-2/3">Medium</div></Link>
+            <div className="flex justify-between w-1/3 md:w-1/4 lg:w-1/6">
                 {visible && <Link to="/writeblog" >Write</Link>}
-                <Link to={`/Account/${localStorage.getItem('userId')}`} className="mr-2"><Avatar authorName={localStorage.getItem('userName')||"unknown"} /></Link>
                 <div onClick={() => {
                     localStorage.removeItem('jwt');
                     localStorage.removeItem('userName');
@@ -29,7 +28,10 @@ const Appbar = () => {
                     navigate("/signin");
                 }}>
                     Logout
+
                 </div>
+                <Link to={`/Account/${localStorage.getItem('userId')}`} className="mr-2"><Avatar authorName={localStorage.getItem('userName')||"unknown"} /></Link>
+
             </div>
         </div>
     )

@@ -3,8 +3,6 @@ import Dot from "../components/Dot";
 import { useBlog } from "../hooks"
 import { Link, useParams } from 'react-router-dom';
 import { getDate, getReadTime } from "../utilites";
-import axios from "axios";
-import { BACKEND_URL } from "../config";
 import Shares from "../components/Shares";
 import Likes from "../components/Likes";
 

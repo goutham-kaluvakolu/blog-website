@@ -1,4 +1,4 @@
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import Tags from "../components/Tags"
 import { blogStateAtom } from "../atoms";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const Summary = () => {
   const navigate = useNavigate();
-  const [blogInfo, setBlogInfo] = useRecoilState(blogStateAtom);
+  const blogInfo = useRecoilValue(blogStateAtom);
   const handlePublish = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     

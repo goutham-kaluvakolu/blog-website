@@ -14,3 +14,13 @@ export const blogStateAtom = atom<BlogState>({
         tags:[]
     }
   });
+
+  export const openedBlogStateAtom = atom({
+    key: 'openedBlogStateAtom', // unique ID (with respect to other atoms/selectors)
+    default: {}, // Initial value is an empty object
+});
+
+
+
+
+ 

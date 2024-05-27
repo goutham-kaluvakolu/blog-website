@@ -39,7 +39,13 @@ const Summary = () => {
        
     <Tags/>
     <div className="text-5xl font-bold mb-10 mt-10">{blogInfo.title}</div>
-    <div>{blogInfo.content}</div>     
+    <div>
+    {blogInfo.content.split('\n').map((line, index) => (
+          <div key={index}>{line === '' ? <br /> : line}</div>
+        ))}
+    
+    </div>   
+
   </div></>
   )
 }

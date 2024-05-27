@@ -5,14 +5,18 @@ import { Link, useParams } from 'react-router-dom';
 import { getDate, getReadTime } from "../utilites";
 import Shares from "../components/Shares";
 import Likes from "../components/Likes";
+import Blogskeleton from "../components/Blogskeleton";
+import { ChangeEvent, useEffect, useState } from "react";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
-const blog = () => {
+const Blog = () => {
   const { id } = useParams();
   const { loading, blog } = useBlog(id || "abc")
   if (loading) {
     return (
       <div>
-        loading...
+        <Blogskeleton />
       </div>
     )
   }
@@ -38,20 +42,84 @@ const blog = () => {
         </div>
         {/* stats and icons*/}
         <div className="flex border-b-2 p-4 text-base text-slate-500">
-          <Likes count={blog.likes} blogId={blog.id}/>
+          <Likes count={blog.likes} blogId={blog.id} />
           <Shares count={blog.shareCount} />
-          
-          
+
+
         </div>
 
         {/* content */}
-        <div className="p-4 pt-10">{blog.content}</div>
+        <div className="p-4 pt-10">{blog.content.split('\n').map((line, index) => (
+          <div key={index}>{line === '' ? <br /> : line}</div>
+        ))}</div>
+        <Commentbox blogId={blog.id} />
+
+
       </div>
     </div>
   )
 }
 
-export default blog
+export default Blog
 
 
+const Commentbox = ({ blogId }: { blogId: string }) => {
 
+  type commentProps =
+    {
+      "content": string,
+      "author": string
+    }
+
+  const [comment, setComment] = useState<string>("")
+  const [newComment, setNewComment] = useState(true)
+
+  const [comments, setComments] = useState<commentProps[]>([])
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/api/v1/comment`, {
+      params: { blogId: blogId, }, // Send tag in the request body
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+      }
+    }).then((res) => setComments(res.data.comments)).then((res) => console.log(res))
+  }, [newComment])
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setComment(e.target.value)
+  }
+  const handleSubmit = () => {
+    axios.post(`${BACKEND_URL}/api/v1/comment`, {
+      userId: localStorage.getItem("userId"),
+      blogId: blogId,
+      content: comment
+    },
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+        }
+      }
+    )
+
+    setNewComment(prev => !prev)
+    console.log("***", comments)
+  }
+  return (
+    <div className="border-t-2 p-5">
+      <div>comments</div>
+      <div className="flex p-5">
+      <input className="w-full" placeholder="your comment" type="text" onChange={(e) => handleChange(e)} />
+      <button className=" p-2 bg-lime-400" onClick={handleSubmit}>submit</button>
+      </div>
+      
+      <div>{comments.map((comment: commentProps) => {
+        return (
+          <div className="p-5 border-b-2" key={comment.author}>
+            <div className="flex mb-2">
+            <div className="mr-2">{<Avatar authorName={comment.author}/>}</div><div>{comment.author}</div>
+            </div>
+            <div>{comment.content}</div>
+          </div>
+        )
+      })}</div>
+    </div>
+  )
+}

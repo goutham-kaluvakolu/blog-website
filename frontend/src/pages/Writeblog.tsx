@@ -62,7 +62,7 @@ const Writeblog = () => {
         {/* <Tags/> */}
         <input type="text" className="w-full border-b-2 p-4 text-5xl focus:border-transparent focus:outline-none " placeholder="Title"
           onChange={(e) => { setTitle(e.target.value) }} />
-        <textarea className="w-full p-4 text-2xl focus:border-transparent focus:outline-none " placeholder="Start writing ..."
+        <textarea className="h-screen resize-none w-full p-4 text-2xl focus:border-transparent focus:outline-none " placeholder="Start writing ..."
           onChange={(e) => setContent(e.target.value)}></textarea>
       </div>
     </form>

@@ -32,7 +32,7 @@ export const useUserBlogs = (authorId: string) => {
                 })
                 console.log(response.data)
                 setBlogs(response.data.blogs);
-                setAuthorName(response.data.blogs.authorName)
+                setAuthorName(response.data.blogs[0].authorName)
                 setLoading(false);
 
             } catch (error) {

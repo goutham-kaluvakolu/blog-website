@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import { BACKEND_URL } from "../config";
 import Toast from "./Toast";
+import { appBarVisibility } from "../atoms";
+import { useSetRecoilState } from "recoil";
 
 const Auth = ({ type }: { type: string }) => {
-
+    const setVisible = useSetRecoilState(appBarVisibility);
     const [postInputs, setPostInputs] = useState<SigninInput>({
         email: "",
         password: ""
@@ -51,7 +53,9 @@ const Auth = ({ type }: { type: string }) => {
             localStorage.setItem("userId", response.data.id)
             localStorage.setItem("userName", response.data.name)
             navigate("/blogs")
-            console.log(localStorage.getItem("jwt"))
+            // console.log(localStorage.getItem("jwt"))
+            setVisible(true)
+            
         }
         catch (e) {
 

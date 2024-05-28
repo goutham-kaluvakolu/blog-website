@@ -32,11 +32,7 @@ export const useBlog = (blogId: string) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${BACKEND_URL}/api/v1/blog/${blogId}`, {
-                    headers: {
-                        'Authorization': `bearer ${localStorage.getItem("jwt")}`
-                    }
-                })
+                const response = await axios.get(`${BACKEND_URL}/api/v1/default/${blogId}`)
                 console.log(response.data)
                 setBlog(response.data.blog);
                 setLoading(false);

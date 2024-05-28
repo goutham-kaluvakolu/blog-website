@@ -25,11 +25,7 @@ export const useUserBlogs = (authorId: string) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${BACKEND_URL}/api/v1/blog/user/${authorId}`, {
-                    headers: {
-                        'Authorization': `bearer ${localStorage.getItem("jwt")}`
-                    }
-                })
+                const response = await axios.get(`${BACKEND_URL}/api/v1/default/user/${authorId}`)
                 console.log(response.data)
                 setBlogs(response.data.blogs);
                 setAuthorName(response.data.blogs[0].authorName)

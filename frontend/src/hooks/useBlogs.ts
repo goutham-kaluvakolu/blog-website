@@ -20,11 +20,7 @@ export const useBlogs = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
-                    headers: {
-                        'Authorization': `bearer ${localStorage.getItem("jwt")}`
-                    }
-                });
+                const response = await axios.get(`${BACKEND_URL}/api/v1/default/bulk`);
                 console.log(response.data)
                 setBlogs(response.data);
                 setLoading(false);

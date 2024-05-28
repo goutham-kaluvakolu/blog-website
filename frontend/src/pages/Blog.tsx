@@ -81,7 +81,7 @@ const Commentbox = ({ blogId }: { blogId: string }) => {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("jwt")}`
       }
-    }).then((res) => setComments(res.data.comments)).then((res) => console.log(res))
+    }).then((res) => setComments(res.data.comments))
   }, [newComment])
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value)
@@ -110,7 +110,7 @@ const Commentbox = ({ blogId }: { blogId: string }) => {
       <button className=" p-2 bg-lime-400" onClick={handleSubmit}>submit</button>
       </div>
       
-      <div>{comments.map((comment: commentProps) => {
+      <div>{comments.length>0?(comments.map((comment: commentProps) => {
         return (
           <div className="p-5 border-b-2" key={comment.author}>
             <div className="flex mb-2">
@@ -119,7 +119,9 @@ const Commentbox = ({ blogId }: { blogId: string }) => {
             <div>{comment.content}</div>
           </div>
         )
-      })}</div>
+      })):(<div className="p-5 text-center">
+        No comments yet
+      </div>)}</div>
     </div>
   )
 }

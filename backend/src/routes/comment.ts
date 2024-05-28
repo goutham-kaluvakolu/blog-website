@@ -71,7 +71,7 @@ commentRouter.get('/', async (c) => {
 
         // Return an empty array if no comments found
         if (!comments || comments.length === 0) {
-            return c.json([]);
+            return c.json({comments:[]});
         }
 
         const formattedComments = comments.map(comment => ({

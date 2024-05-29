@@ -6,9 +6,11 @@ import { getDate, getReadTime } from "../utilites";
 import Shares from "../components/Shares";
 import Likes from "../components/Likes";
 import Blogskeleton from "../components/Blogskeleton";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, Key, useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const Blog = () => {
   const { id } = useParams();
@@ -21,8 +23,6 @@ const Blog = () => {
     )
   }
   const time = getReadTime(blog.content)
-
-
   return (
     <div className="flex justify-center">
       <div className="ml-5 mr-5 w-full md:w-2/3">
@@ -49,9 +49,7 @@ const Blog = () => {
         </div>
 
         {/* content */}
-        <div className="p-4 pt-10">{blog.content.split('\n').map((line, index) => (
-          <div key={index}>{line === '' ? <br /> : line}</div>
-        ))}</div>
+        <ReactMarkdown children={blog.content} remarkPlugins={[remarkGfm]} />
         <Commentbox blogId={blog.id} />
 
 

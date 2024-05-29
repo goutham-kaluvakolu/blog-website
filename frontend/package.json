@@ -12,10 +12,13 @@
   "dependencies": {
     "@goutham4331/blog-website-commons": "^1.0.0",
     "axios": "^1.6.8",
+    "html-react-parser": "^5.1.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
     "react-router-dom": "^6.23.0",
-    "recoil": "^0.7.7"
+    "recoil": "^0.7.7",
+    "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

@@ -24,7 +24,7 @@ const Appbar = () => {
                                 localStorage.removeItem('jwt');
                                 localStorage.removeItem('userName');
                                 localStorage.removeItem('userId');
-                                setVisible(prev => !prev)
+                                setVisible(false)
                                 navigate("/signin");
                             }}>
                                 Logout

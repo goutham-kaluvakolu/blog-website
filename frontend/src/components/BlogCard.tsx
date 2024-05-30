@@ -3,6 +3,9 @@ import Avatar from "./Avatar"
 import Bookmark from "./Bookmark"
 import GenBadge from "./GenBadge"
 import { getDate, getReadTime } from "../utilites"
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import removeMarkdown from "markdown-to-text";
 
 
 type blogcardProps = {
@@ -38,8 +41,8 @@ const BlogCard = ({ id, authorName, content, title, authorId, blogDate, bookMark
                     {title}
                 </div>
                 {/* few lines */}
-                <article className="text-ellipsis overflow-hidden text-slate-600 text-base">
-                    {content.substring(0, 1000) + '...'}
+                <article className="text-ellipsis overflow-hidden text-slate-600 text-base flex items-end ">
+                    {removeMarkdown(content.substring(0, 1000) + "....")}
                 </article>
             </Link></div>
 

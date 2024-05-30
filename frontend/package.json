@@ -13,6 +13,7 @@
     "@goutham4331/blog-website-commons": "^1.0.0",
     "axios": "^1.6.8",
     "html-react-parser": "^5.1.10",
+    "markdown-to-text": "^0.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.1",

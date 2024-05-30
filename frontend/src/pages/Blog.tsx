@@ -6,7 +6,7 @@ import { getDate, getReadTime } from "../utilites";
 import Shares from "../components/Shares";
 import Likes from "../components/Likes";
 import Blogskeleton from "../components/Blogskeleton";
-import { ChangeEvent, Key, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import ReactMarkdown from "react-markdown";

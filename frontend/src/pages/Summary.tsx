@@ -4,6 +4,8 @@ import { blogStateAtom } from "../atoms";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 
 const Summary = () => {
@@ -40,9 +42,10 @@ const Summary = () => {
     <Tags/>
     <div className="text-5xl font-bold mb-10 mt-10">{blogInfo.title}</div>
     <div>
-    {blogInfo.content.split('\n').map((line, index) => (
+    {/* {blogInfo.content.split('\n').map((line, index) => (
           <div key={index}>{line === '' ? <br /> : line}</div>
-        ))}
+        ))} */}
+        <ReactMarkdown children={blogInfo.content} remarkPlugins={[remarkGfm]} />
     
     </div>   
 

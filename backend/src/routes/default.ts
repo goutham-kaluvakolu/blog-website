@@ -96,6 +96,26 @@ defaultRouter.get('/bulk', async (c) => {
 
 })
 
+
+
+defaultRouter.get('/qoute', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+    console.log("***get qoutes randomly*******")
+    //get all qoutes from the database
+    try{
+        const qoutes = await prisma.qoutes.findMany();
+        return c.json({qoutes:qoutes});
+    }
+    catch(e){
+        c.status(404);
+        return c.json({
+            error: "No qoutes found"
+        });
+    }
+})
+
 defaultRouter.get('/user/:id', async (c) => {
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,

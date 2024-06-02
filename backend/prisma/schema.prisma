@@ -20,7 +20,9 @@ model Post {
   authorId   String
   bookmarks  Bookmark[]
   TagPost    TagPost[]
-  published  Boolean  @default(false)
+  published  Boolean    @default(false)
+  Tag        Tag?       @relation(fields: [tagId], references: [id])
+  tagId      String?
 }
 
 model Comment {
@@ -45,6 +47,12 @@ model User {
   TagUser   TagUser[]
 }
 
+model Qoutes {
+  id    Int    @id @default(autoincrement())
+  name  String
+  qoute String
+}
+
 model Bookmark {
   post     Post   @relation(fields: [postId], references: [id])
   postId   String
@@ -58,7 +66,7 @@ model Tag {
   id      String    @id @default(uuid())
   name    String    @unique
   users   User[] // Added relation field
- posts Post[] 
+  posts   Post[]
   TagUser TagUser[]
   TagPost TagPost[]
 }

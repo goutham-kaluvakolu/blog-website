@@ -50,7 +50,7 @@ const Qoute = () => {
   }
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-slate-300">
+    <div className="min-h-screen flex justify-center items-center">
       <div className="flex-col justify-center p-10">
         <p className="text-3xl font-bold text-center mb-2">{qoute.qoute}</p>
         <p className="text-lg text-center"><span> - </span>{qoute.name}</p>

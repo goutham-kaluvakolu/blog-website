@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useState } from "react"
 import { BACKEND_URL } from "../config"
+import Tooltip from "./Tooltip"
 
 type likeProps = {
     count: number,
@@ -30,7 +31,7 @@ const Likes = ({ count, blogId }: likeProps) => {
     }
     return (
         <div className="flex mr-5" onClick={handleLikes}>
-            <Like /> {likes}
+            <Tooltip message="Likes"><Like /> </Tooltip>{likes}
         </div>
     )
 }

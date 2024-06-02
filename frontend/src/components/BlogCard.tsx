@@ -6,6 +6,7 @@ import { getDate, getReadTime } from "../utilites"
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import removeMarkdown from "markdown-to-text";
+import Tooltip from "./Tooltip"
 
 
 type blogcardProps = {
@@ -58,8 +59,9 @@ const BlogCard = ({ id, authorName, content, title, authorId, blogDate, bookMark
                     <div className="text-sm text-slate-500">{`${getReadTime(content)} min read`}</div>
                 </div>
 
-
+                <Tooltip message={"Bookmark"}>
                 <Bookmark blogId={id} bookMark={bookMark || false} />
+                </Tooltip>
 
             </div>
 

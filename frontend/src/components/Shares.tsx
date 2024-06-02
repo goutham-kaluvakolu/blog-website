@@ -1,4 +1,5 @@
 import { useState } from "react"
+import Tooltip from "./Tooltip"
 type shareProps = {
   count: number
 }
@@ -13,7 +14,8 @@ const Shares = ({ count }: shareProps) => {
   }
   return (
     <div className="flex" onClick={handleShare}>
-      <Share /> {shares}
+      <Tooltip message="Shares"><Share /></Tooltip>
+       {shares}
     </div>
   )
 }

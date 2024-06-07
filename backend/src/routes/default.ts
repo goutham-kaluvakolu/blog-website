@@ -21,7 +21,7 @@ defaultRouter.get('/bulk', async (c) => {
     }).$extends(withAccelerate())
     console.log("***get blogs in bulk*******")
 
-    const count = 5 // Number of latest blog posts to fetch
+    const count = 15 // Number of latest blog posts to fetch
 
     try {
         // Fetch the latest n blog posts

@@ -3,8 +3,6 @@ import Avatar from "./Avatar"
 import Bookmark from "./Bookmark"
 import GenBadge from "./GenBadge"
 import { getDate, getReadTime } from "../utilites"
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import removeMarkdown from "markdown-to-text";
 import Tooltip from "./Tooltip"
 

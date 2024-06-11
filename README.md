@@ -52,7 +52,7 @@
 
 ## 📍 Overview
 
-The blog-website project is a secure and efficient platform that implements user authentication and authorization using Prisma for database interactions. With features like user profile updates, user authentication, and access control, the project ensures data integrity and user privacy. Its seamless integration of JWT token generation, database schema management, and centralized user operations management elevates the overall safety and functionality of the blog, providing a robust foundation for content creation and secure access control.
+The blog-website project is a secure and efficient platform that implements user authentication and authorization using JWT, uses Prisma for database interactions. With features like user profile updates, user authentication, and access control, the project ensures data integrity and user privacy. Its seamless integration of JWT token generation, database schema management, and centralized user operations management elevates the overall safety and functionality of the blog, providing a robust foundation for content creation and secure access control.
 
 ---
 
@@ -65,7 +65,7 @@ The blog-website project is a secure and efficient platform that implements user
 | 📄 | **Documentation** | Extensive documentation on managing user profiles, database schema, migrations, JWT token generation, and user authentication. |
 | 🔌 | **Integrations**  | Integrates with Prisma, Vite, React, React Router DOM, Axios, Tailwind CSS, and other dependencies. |
 | 🧩 | **Modularity**    | Ensures modularity by separating user authentication, profile updates, quote schema, and routes in the backend. |
-| 🧪 | **Testing**       | Testing frameworks and tools not explicitly mentioned in the details. |
+| 🧪 | **Testing**       | Testing frameworks and tools not explicitly used as of now|
 | ⚡️  | **Performance**   | Enhances platform security, efficiency, and speed through user authentication and access control. |
 | 🛡️ | **Security**      | Implements JWT token generation, authorization middleware, and secure access for user-related routes. |
 | 📦 | **Dependencies**  | Hono, Zod, Prisma, Vite, Axios, React, React Router DOM, Tailwind CSS, ESLint, Recoil, and more. |

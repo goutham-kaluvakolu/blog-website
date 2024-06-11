@@ -5,7 +5,7 @@
     <h1 align="center">BLOG-WEBSITE</h1>
 </p>
 <p align="center">
-    <em>Empower your voice with our secure blog platform!</em>
+    <em>Empower your voice with our blog platform!</em>
 </p>
 <p align="center">
 	<img src="https://img.shields.io/github/license/goutham-kaluvakolu/blog-website?style=flat&color=0080ff" alt="license">

@@ -2,7 +2,7 @@
   <img src="https://cdn-icons-png.flaticon.com/512/6295/6295417.png" width="100" />
 </p>
 <p align="center">
-    <h1 align="center">BLOG-WEBSITE</h1>
+    <h1 align="center">SERVERLESS-BLOG-WEBSITE</h1>
 </p>
 <p align="center">
     <em>Empower your voice with our blog platform!</em>
@@ -69,7 +69,7 @@ The blog-website project is a secure and efficient platform that implements user
 | ⚡️  | **Performance**   | Enhances platform security, efficiency, and speed through user authentication and access control. |
 | 🛡️ | **Security**      | Implements JWT token generation, authorization middleware, and secure access for user-related routes. |
 | 📦 | **Dependencies**  | Hono, Zod, Prisma, Vite, Axios, React, React Router DOM, Tailwind CSS, ESLint, Recoil, and more. |
-| 🚀 | **Scalability**   | Supports scalability by ensuring data integrity, sequential IDs for quotes, and secure user sessions. |
+| 🚀 | Scalability | Achieves scalability through the use of Cloudflare worker nodes and its serverless architecture |
 
 
 ---

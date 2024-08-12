@@ -54,7 +54,7 @@ const Appbar = () => {
                             </div>
 
                             <Link to={`/Account/${localStorage.getItem('userId')}`} className="mr-2 hovereffect"  >
-                                <Avatar authorName={localStorage.getItem('userName') || "unknown"} hieght="h-8" />
+                                <Avatar authorName={localStorage.getItem('userName') || "unknown"} height="h-8" />
                                 <div className="dropdown m-1 p-2 rounded-lg border-2 border-slate-300 bg-white right-1 text-lg" >
                                     <ul>
                                         <li className="hover:bg-orange p-2 rounded-lg">dashboard</li>
@@ -79,18 +79,18 @@ const Appbar = () => {
 
                     <div className="w-full flex flex-row-reverse text-slate-500 text-lg items-center justify-between" >
                         <div className="m-2 cursor-pointer font-medium border-2 p-2 shadoweff items-center"
-                        onClick={() =>{
-                            axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
-                                "email": "vaper@gmail.com",
-                                "password": "Havefun1!"
-                            }).then((res) => {
-                                localStorage.setItem("jwt", res.data.jwt)
-                                localStorage.setItem("userId", res.data.id)
-                                localStorage.setItem("userName", res.data.name)
-                                navigate("/blogs");
-                                setVisible(prev => !prev)
-                            })
-                        } }
+                            onClick={() => {
+                                axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
+                                    "email": "vaper@gmail.com",
+                                    "password": "Havefun1!"
+                                }).then((res) => {
+                                    localStorage.setItem("jwt", res.data.jwt)
+                                    localStorage.setItem("userId", res.data.id)
+                                    localStorage.setItem("userName", res.data.name)
+                                    navigate("/blogs");
+                                    setVisible(prev => !prev)
+                                })
+                            }}
                         >
                             Demo User </div>
 

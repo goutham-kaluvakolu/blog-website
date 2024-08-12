@@ -26,7 +26,7 @@ const BlogCard = ({ id, authorName, content, title, authorId, blogDate, bookMark
             {/* header */}
             <div></div>
             <div className="flex items-center mb-6 space-x-2">
-                <Avatar authorName={authorName} hieght="h-8"/>
+                <Avatar authorName={authorName} height="h-8"/>
                 {/* name */}
                 <Link to={`/Author/${authorId}`} className="mr-1 font-medium text-base ">{authorName}</Link>
                 {/* dot */}

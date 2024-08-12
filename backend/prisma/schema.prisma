@@ -45,6 +45,8 @@ model User {
   tags      Tag[]
   comments  Comment[]
   TagUser   TagUser[]
+  followedBy     Connection[] @relation("Follower")
+  following      Connection[] @relation("Following")
 }
 
 model Qoutes {
@@ -87,4 +89,15 @@ model TagPost {
   postId String
 
   @@id([postId, tagId])
+}
+
+model Connection {
+  id           String   @id @default(uuid())
+  follower     User     @relation("Follower", fields: [followerId], references: [id])
+  followerId   String
+  following    User     @relation("Following", fields: [followingId], references: [id])
+  followingId  String
+  createdAt    DateTime @default(now())
+
+  @@unique([followerId, followingId])
 }

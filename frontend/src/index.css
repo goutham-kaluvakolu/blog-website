@@ -24,6 +24,7 @@
   }
   
   .has-tooltip:hover .tooltip {
+    background-color: white;
     @apply visible z-50;
   }
 

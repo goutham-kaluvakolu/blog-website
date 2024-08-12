@@ -104,11 +104,11 @@ defaultRouter.get('/qoute', async (c) => {
     }).$extends(withAccelerate())
     console.log("***get qoutes randomly*******")
     //get all qoutes from the database
-    try{
+    try {
         const qoutes = await prisma.qoutes.findMany();
-        return c.json({qoutes:qoutes});
+        return c.json({ qoutes: qoutes });
     }
-    catch(e){
+    catch (e) {
         c.status(404);
         return c.json({
             error: "No qoutes found"
@@ -191,7 +191,7 @@ defaultRouter.get('/user/:id', async (c) => {
             blogInfoArray.push(bloginfo);
         }
         return c.json({
-            blogs:blogInfoArray
+            blogs: blogInfoArray
         })
 
     }
@@ -202,6 +202,166 @@ defaultRouter.get('/user/:id', async (c) => {
         })
     }
 
+})
+
+
+defaultRouter.get('/followers/:id', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+    console.log("****get all blogs of a followers/:id*******")
+
+    const authorId = c.req.param("id")
+    console.log("authorId", authorId)
+
+    try {
+        const followersCount = await prisma.connection.count({
+            where: {
+                followingId: authorId
+            }
+        });
+
+        return c.json({
+            followersCount: followersCount
+        })
+
+    }
+    catch (e) {
+        c.status(405)
+        return c.json({
+            followersCount : 0
+        })
+    }
+
+})
+
+defaultRouter.get('/checkfollowing/:id/:followingId', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+    console.log("****get all blogs of a followers/:id*******")
+
+    const followerId = c.req.param("id")
+    const followingId = c.req.param("followingId")
+
+    console.log("followerId", followerId, "followingId", followingId)
+
+    try {
+
+        const connection = await prisma.connection.findFirst({
+            where: {
+                followerId: followerId,
+                followingId: followingId
+            }
+        })
+
+        return c.json({
+            isFollowing: !!connection
+        })
+
+    }
+    catch (e) {
+        c.status(405)
+        return c.json({
+            followersCount : 0
+        })
+    }
+
+})
+
+
+defaultRouter.post('/follow/:id', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+    console.log("****get all blogs of a post followers/:id*******")
+    const body = await c.req.json()
+    const followerId = body.followerId
+    const authorId = c.req.param("id")
+    console.log("authorId", authorId)
+    try {
+        const result = await prisma.$transaction(async (tx) => {
+        
+          // Create the new connection
+          const newConnection = await tx.connection.create({
+            data: {
+              follower: { connect: { id: followerId } },
+              following: { connect: { id: authorId } },
+            },
+          })
+    
+          // Count the followers for the user being followed
+          const followersCount = await tx.connection.count({
+            where: {
+              followingId: authorId
+            }
+          })
+    
+          return { newConnection, followersCount }
+        })
+    
+        return c.json({
+          success: true,
+          message: "Successfully followed the user",
+          followersCount: result.followersCount
+        })
+      } catch (error) {
+        console.error("Error creating follower connection:", error)
+    
+        return c.json({
+          success: false,
+          error: "Failed to create follower connection"
+        }, 500)
+      }
+})
+
+defaultRouter.post('/unfollow/:id', async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+    console.log("****get all blogs of a post followers/:id*******")
+    const body = await c.req.json()
+    const followerId = body.followerId
+    const authorId = c.req.param("id")
+    console.log("authorId", authorId)
+    try {
+        const result = await prisma.$transaction(async (tx) => {
+        
+          // Create the new connection
+          const deletedConnection = await tx.connection.deleteMany({
+            where: {
+              followerId: followerId,
+              followingId: authorId,
+            },
+          });
+    
+          // Count the followers for the user being followed
+          const followersCount = await tx.connection.count({
+            where: {
+              followingId: authorId
+            }
+          })
+    
+          return { deletedConnection, followersCount }
+        })
+    
+        return c.json({
+          success: true,
+          message: "Successfully followed the user",
+          followersCount: result.followersCount
+        })
+      } catch (error) {
+        console.error("Error creating follower connection:", error)
+    
+        return c.json({
+          success: false,
+          error: "Failed to create follower connection"
+        }, 500)
+      }
 })
 
 defaultRouter.get('/:id', async (c) => {

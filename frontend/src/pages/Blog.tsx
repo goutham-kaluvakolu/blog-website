@@ -31,17 +31,17 @@ const Blog = () => {
         {/* user details */}
         <div className="flex items-center border-b-2 pb-7 ">
           {/* user avator  */}
-          <Avatar authorName={blog.authorName} width="w-10" hieght="h-10" />
+          <Avatar authorName={blog.authorName} width="w-10" height="h-10" />
           {/* user info */}
           <div className="ml-2 ">
-            <div className="flex items-center"><div className=" font-bold mr-2"><Link to={`/Author/${blog.authorId}`}>{blog.authorName}</Link></div><Dot /><div className="text-teal-600 font-medium ml-2">Follow</div></div>
+            <div className="flex items-center"><div className=" font-bold mr-2"><Link to={`/Author/${blog.authorId}`}>{blog.authorName}</Link></div><Dot /><div className=" p-2 text-teal-600 font-medium ml-2 hover:bg-orange hover:rounded cursor-pointer">Follow</div></div>
             <div className="flex items-center text-slate-500 font-medium"><div className="mr-2">{`${time} min`}</div><Dot /><div className="ml-2">{getDate(blog.createdAt)}</div></div>
           </div>
 
 
         </div>
         {/* stats and icons*/}
-        <div className="flex border-b-2 p-4 text-base text-slate-500">
+        <div className="flex border-b-2 p-4 text-base text-slate-500 cursor-pointer">
           <Likes count={blog.likes} blogId={blog.id} />
           <Shares count={blog.shareCount} />
 
@@ -49,10 +49,12 @@ const Blog = () => {
         </div>
 
         {/* content */}
+
+        <div className="m-10">
         <ReactMarkdown children={blog.content} remarkPlugins={[remarkGfm]} />
+
+        </div>
         <Commentbox blogId={blog.id} />
-
-
       </div>
     </div>
   )

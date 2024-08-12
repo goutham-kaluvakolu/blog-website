@@ -14,12 +14,14 @@ const Writeblog = () => {
 
 
   useEffect(() => {
-    if (localStorage.getItem("jwt")) {
+    setContent(blogInfo.content)
+    setTitle(blogInfo.title)
+    // if (localStorage.getItem("jwt")) {
 
-    }
-    else {
-      navigate("/signin")
-    }
+    // }
+    // else {
+    //   navigate("/signin")
+    // }
   }, [])
 
   const handlePublish = (e: { preventDefault: () => void; }) => {
@@ -38,18 +40,20 @@ const Writeblog = () => {
       <div className="w-full p-5">
         {/* reusable badge */}
         <div className="flex flex-row-reverse mb-4">
-          <button className="bg-green-100 text-white text-xs font-medium me-2 px-3 py-2 rounded dark:bg-green-900 dark:text-white"
+          <button className="bg-orange text-base font-medium me-2 px-3 py-2 rounded"
             onClick={handlePublish}
           >Next</button>
         </div>
         {/* <Tags/> */}
         <input type="text" className="w-full border-b-2 p-4 text-5xl focus:border-transparent focus:outline-none " placeholder="Title"
-          onChange={(e) => { setTitle(e.target.value) }} />
+          onChange={(e) => { setTitle(e.target.value) }} value={title}/>
         <div className="flex">
-          <textarea className="h-screen resize-none w-1/2 p-4  focus:border-transparent focus:outline-none " placeholder="Start writing ..."
+          <textarea className="h-screen text-base  resize-none w-1/2 p-4  focus:border-transparent focus:outline-none " placeholder="Start writing ..."
             onChange={(e) => setContent(e.target.value)} value={content} ></textarea>
-          <div className="w-1/2">
+          <div className="w-1/2 p-4">
+          {content.length == 0? <p className="text-slate-100 op">Markdown ...</p>:
           <ReactMarkdown children={content} remarkPlugins={[remarkGfm]} />
+          }
           </div>
         </div>
 

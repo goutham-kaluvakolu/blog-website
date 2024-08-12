@@ -34,9 +34,13 @@ const Summary = () => {
   return (
     <><div className="ml-5 mr-5">
       <div className="flex flex-row-reverse">
-      <button className="bg-green-100 text-white text-xs font-medium me-2 px-3 py-2 rounded dark:bg-green-900 dark:text-white"
+     
+      <button className="bg-orange font-medium m-2 px-3 py-2 rounded"
           onClick={handlePublish}
         >publish</button>
+         <button className="bg-orange font-medium m-2 px-3 py-2 rounded"
+          onClick={() => navigate('/writeblog')}
+        >Back</button>
       </div>
        
     <Tags/>

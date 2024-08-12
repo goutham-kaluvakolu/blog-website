@@ -4,6 +4,8 @@ import Avatar from "./Avatar"
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { appBarVisibility } from "../atoms";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 
 
@@ -76,7 +78,20 @@ const Appbar = () => {
                 {!visible && (
 
                     <div className="w-full flex flex-row-reverse text-slate-500 text-lg items-center justify-between" >
-                        <div className="m-2 cursor-pointer font-medium border-2 p-2 shadoweff items-center">
+                        <div className="m-2 cursor-pointer font-medium border-2 p-2 shadoweff items-center"
+                        onClick={() =>{
+                            axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
+                                "email": "vaper@gmail.com",
+                                "password": "Havefun1!"
+                            }).then((res) => {
+                                localStorage.setItem("jwt", res.data.jwt)
+                                localStorage.setItem("userId", res.data.id)
+                                localStorage.setItem("userName", res.data.name)
+                                navigate("/blogs");
+                                setVisible(prev => !prev)
+                            })
+                        } }
+                        >
                             Demo User </div>
 
                         <div onClick={() => {

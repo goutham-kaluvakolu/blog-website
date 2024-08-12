@@ -14,7 +14,7 @@ export default {
       // Configure your color palette here
       'orange': '#FF9966',
       "loginbutoncolor":'#FEF1E5',
-      'avator':"gray",
+      'gray':"gray",
       'white':"#FFFFFF"
     }
   },

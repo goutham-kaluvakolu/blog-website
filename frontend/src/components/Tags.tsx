@@ -100,8 +100,8 @@ useEffect(()=>{
   return (
     <div>
       <div className="m-5">
-      <div className="text-center text-xl text-slate-500 m-10">{selectedTags.length==0&&"Add tags to your blog for more reach"}</div>
-        {selectedTags.slice(0, 5).map((tagName: string) => (
+      <div className="text-center text-xl opacity-50 m-10">{selectedTags.length==0&&"Add tags to your blog for more reach"}</div>
+        {selectedTags.map((tagName: string) => (
           <Badge name={tagName} handleRemoveBadge={() => handleRemoveBadge(tagName)} />
         ))}
       </div>
@@ -109,7 +109,7 @@ useEffect(()=>{
       <div className="">
         <div className="">
           {tags.slice(0, 10).map((tag: { name: string }, index: number) => (
-            <div className="cursor-pointer text-lg border-b-2 p-2 m-2" key={index} onClick={() => handleBlogTags(tag.name)}>{tag.name}</div> // Use 'tag.name' to access the tag name
+            <div className="cursor-pointer text-lg border-b-2 p-2 m-2 shadoweff" key={index} onClick={() => handleBlogTags(tag.name)}>{tag.name}</div> // Use 'tag.name' to access the tag name
           ))}
         </div>
       </div>

@@ -2,10 +2,10 @@
   <img src="https://cdn-icons-png.flaticon.com/512/6295/6295417.png" width="100" />
 </p>
 <p align="center">
-    <h1 align="center">BLOG-WEBSITE</h1>
+    <h1 align="center">SERVERLESS-BLOG-WEBSITE</h1>
 </p>
 <p align="center">
-    <em>Empower your voice with our secure blog platform!</em>
+    <em>Empower your voice with our blog platform!</em>
 </p>
 <p align="center">
 	<img src="https://img.shields.io/github/license/goutham-kaluvakolu/blog-website?style=flat&color=0080ff" alt="license">
@@ -20,9 +20,9 @@
 	<img src="https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=flat&logo=JavaScript&logoColor=black" alt="JavaScript">
 	<img src="https://img.shields.io/badge/.ENV-ECD53F.svg?style=flat&logo=dotenv&logoColor=black" alt=".ENV">
 	<img src="https://img.shields.io/badge/HTML5-E34F26.svg?style=flat&logo=HTML5&logoColor=white" alt="HTML5">
-	<img src="https://img.shields.io/badge/PostCSS-DD3A0A.svg?style=flat&logo=PostCSS&logoColor=white" alt="PostCSS">
-	<img src="https://img.shields.io/badge/Autoprefixer-DD3735.svg?style=flat&logo=Autoprefixer&logoColor=white" alt="Autoprefixer">
 	<img src="https://img.shields.io/badge/Vite-646CFF.svg?style=flat&logo=Vite&logoColor=white" alt="Vite">
+	<img src="https://img.shields.io/badge/Cloudflare-F38020.svg?style=flat&logo=Cloudflare&logoColor=white" alt="Cloudflare">
+	<img src="https://img.shields.io/badge/Hono-FF9900.svg?style=flat&logo=Hono&logoColor=white" alt="Hono">
 	<br>
 	<img src="https://img.shields.io/badge/React-61DAFB.svg?style=flat&logo=React&logoColor=black" alt="React">
 	<img src="https://img.shields.io/badge/Axios-5A29E4.svg?style=flat&logo=Axios&logoColor=white" alt="Axios">
@@ -52,7 +52,7 @@
 
 ## 📍 Overview
 
-The blog-website project is a secure and efficient platform that implements user authentication and authorization using Prisma for database interactions. With features like user profile updates, user authentication, and access control, the project ensures data integrity and user privacy. Its seamless integration of JWT token generation, database schema management, and centralized user operations management elevates the overall safety and functionality of the blog, providing a robust foundation for content creation and secure access control.
+The blog-website project is a secure and efficient platform that implements user authentication and authorization using JWT, uses Prisma for database interactions. With features like user profile updates, user authentication, and access control, the project ensures data integrity and user privacy. Its seamless integration of JWT token generation, database schema management, and centralized user operations management elevates the overall safety and functionality of the blog, providing a robust foundation for content creation and secure access control.
 
 ---
 
@@ -65,11 +65,11 @@ The blog-website project is a secure and efficient platform that implements user
 | 📄 | **Documentation** | Extensive documentation on managing user profiles, database schema, migrations, JWT token generation, and user authentication. |
 | 🔌 | **Integrations**  | Integrates with Prisma, Vite, React, React Router DOM, Axios, Tailwind CSS, and other dependencies. |
 | 🧩 | **Modularity**    | Ensures modularity by separating user authentication, profile updates, quote schema, and routes in the backend. |
-| 🧪 | **Testing**       | Testing frameworks and tools not explicitly mentioned in the details. |
+| 🧪 | **Testing**       | Testing frameworks and tools not explicitly used as of now|
 | ⚡️  | **Performance**   | Enhances platform security, efficiency, and speed through user authentication and access control. |
 | 🛡️ | **Security**      | Implements JWT token generation, authorization middleware, and secure access for user-related routes. |
 | 📦 | **Dependencies**  | Hono, Zod, Prisma, Vite, Axios, React, React Router DOM, Tailwind CSS, ESLint, Recoil, and more. |
-| 🚀 | **Scalability**   | Supports scalability by ensuring data integrity, sequential IDs for quotes, and secure user sessions. |
+| 🚀 | Scalability | Achieves scalability through the use of Cloudflare worker nodes and its serverless architecture |
 
 
 ---
@@ -410,7 +410,7 @@ The blog-website project is a secure and efficient platform that implements user
 
 Ensure you have the following dependencies installed on your system:
 
-* **TypeScript**: `version x.y.z`
+* **TypeScript**
 
 ### ⚙️ Installation
 
@@ -440,70 +440,14 @@ Use the following command to run blog-website:
 npm run build && node dist/main.js
 ```
 
-### 🧪 Tests
-
-To execute tests, run:
-
-```sh
-npm test
-```
-
----
-
-## 🛠 Project Roadmap
-
-- [X] `► INSERT-TASK-1`
-- [ ] `► INSERT-TASK-2`
-- [ ] `► ...`
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Here are several ways you can contribute:
-
-- **[Submit Pull Requests](https://github.com/goutham-kaluvakolu/blog-website/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
-- **[Join the Discussions](https://github.com/goutham-kaluvakolu/blog-website/discussions)**: Share your insights, provide feedback, or ask questions.
-- **[Report Issues](https://github.com/goutham-kaluvakolu/blog-website/issues)**: Submit bugs found or log feature requests for Blog-website.
-
-<details closed>
-    <summary>Contributing Guidelines</summary>
-
-1. **Fork the Repository**: Start by forking the project repository to your GitHub account.
-2. **Clone Locally**: Clone the forked repository to your local machine using a Git client.
-   ```sh
-   git clone https://github.com/goutham-kaluvakolu/blog-website
-   ```
-3. **Create a New Branch**: Always work on a new branch, giving it a descriptive name.
-   ```sh
-   git checkout -b new-feature-x
-   ```
-4. **Make Your Changes**: Develop and test your changes locally.
-5. **Commit Your Changes**: Commit with a clear message describing your updates.
-   ```sh
-   git commit -m 'Implemented new feature x.'
-   ```
-6. **Push to GitHub**: Push the changes to your forked repository.
-   ```sh
-   git push origin new-feature-x
-   ```
-7. **Submit a Pull Request**: Create a PR against the original project repository. Clearly describe the changes and their motivations.
-
-Once your PR is reviewed and approved, it will be merged into the main branch.
-
-</details>
-
----
-
 ## 📄 License
-
-This project is protected under the [SELECT-A-LICENSE](https://choosealicense.com/licenses) License. For more details, refer to the [LICENSE](https://choosealicense.com/licenses/) file.
 
 ---
 
 ## 👏 Acknowledgments
 
-- List any resources, contributors, inspiration, etc. here.
+- Inspired by https://medium.com/ design
+- Harkirat Singh's cohot
 
 [**Return**](#-quick-links)
 

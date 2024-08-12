@@ -27,5 +27,5 @@ export const useUserTags = (userId: string) => {
     }, []);
 
 
-    return { userTagsLoading, userTags }
+    return { userTagsLoading, userTags ,setUserTags}
 }

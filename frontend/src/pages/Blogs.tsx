@@ -19,7 +19,7 @@ type blogProps = {
 
 const Blogs = () => {
     const { loading, blogs } = useBlogs()
-    const { userTagsLoading, userTags } = useUserTags(localStorage.getItem("userId") || 'admin');
+    const { userTagsLoading, userTags , setUserTags} = useUserTags(localStorage.getItem("userId") || 'admin');
     const [activeTag, setActiveTag] = useState("Foryou")
     const [displayBlogs, setDisplayBlogs] = useState<blogProps[]>([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -49,7 +49,7 @@ const Blogs = () => {
     return (
 
         <div className="flex flex-col items-center">
-            {!userTagsLoading && (<SecondaryNav tags={userTags} activeTag={activeTag} handleActiveTagChange={handleActiveTagChange} />)}
+            {!userTagsLoading && (<SecondaryNav tags={userTags} activeTag={activeTag} handleActiveTagChange={handleActiveTagChange} setUserTags={setUserTags} />)}
             {loading && (<div className="w-full flex flex-col items-center"><Blogskeleton /><Blogskeleton /><Blogskeleton /><Blogskeleton /></div>)}
             {
 

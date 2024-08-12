@@ -22,13 +22,13 @@ type blogcardProps = {
 
 const BlogCard = ({ id, authorName, content, title, authorId, blogDate, bookMark, tags }: blogcardProps) => {
     return (
-        <div className="border-b-2 w-full h-38 mt-6 md:w-2/3 ">
+        <div className="border-2 p-6 w-full h-38 mt-8 md:w-2/3 bg-white shadoweff rounded">
             {/* header */}
             <div></div>
-            <div className="flex items-center ">
-                <Avatar authorName={authorName} />
+            <div className="flex items-center mb-6 space-x-2">
+                <Avatar authorName={authorName} hieght="h-8"/>
                 {/* name */}
-                <Link to={`/Author/${authorId}`} className="mr-1 font-medium ">{authorName}</Link>
+                <Link to={`/Author/${authorId}`} className="mr-1 font-medium text-base ">{authorName}</Link>
                 {/* dot */}
                 <span className="mr-1 pb-2">.</span>
                 {/* date */}
@@ -46,7 +46,7 @@ const BlogCard = ({ id, authorName, content, title, authorId, blogDate, bookMark
             </Link></div>
 
             {/* footer */}
-            <div className="flex flex-row justify-between items-center mb-6">
+            <div className="flex flex-row justify-between items-center">
                 {/* icons */}
                 <div className="flex items-center">
                     {tags.map((tag) => {

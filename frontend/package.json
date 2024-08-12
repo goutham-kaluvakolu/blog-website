@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/dm-sans": "^5.0.21",
     "@goutham4331/blog-website-commons": "^1.0.0",
     "axios": "^1.6.8",
     "html-react-parser": "^5.1.10",
@@ -27,12 +28,12 @@
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.19",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.9",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }

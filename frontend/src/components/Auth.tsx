@@ -88,13 +88,13 @@ const Auth = ({ type }: { type: string }) => {
 
         return (
 
-            <div className="flex justify-center">
+            <div className="flex justify-center bg-loginbutoncolor">
                 {displayError}
                 <form className="min-h-screen flex flex-col justify-center w-2/3">
                     {fields.map((field) => <Box label={field.label} placeholder={field.placeholder} req={field.req} handleChange={handleChange} />)}
                     <PasswordBox label={"password"} req={true} handleChange={handleChange} inputType={passwordType} handleEyeToggle={handleEyeToggle} />
                     <div className="flex items-center justify-between mt-4 w-full mb-4" >
-                        <button className="w-full bg-red-500 hover:opacity-90 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button"
+                        <button className="w-full bg-orange hover:opacity-90 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button"
                             onClick={handleSubmit}>
                             {type == "signin" ? "Login" : "Sign up"}
                         </button>

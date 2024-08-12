@@ -1,14 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* @import '@fontsource/dm-sans'; */
 
 @layer base{
+    body{
+        /* background-color: #F5F3EA; */
+        font-family: 'Dmsans', sans-serif;
+
+    }
+
     a{
         text-decoration: red underlined;
     }
-    h1,h2,h3,p{
+    h1,h2,h3,p,div{
         font-size: revert;
     }
+
 }
 
 .tooltip {
@@ -18,3 +26,19 @@
   .has-tooltip:hover .tooltip {
     @apply visible z-50;
   }
+
+.shadoweff:hover{
+    box-shadow: 0.5rem 0.5rem black;
+}
+.hovereffect{
+    position: relative;
+}
+.hovereffect:hover .dropdown{
+   display: block;
+   position: absolute;
+
+}
+
+.dropdown{
+display: none;   
+}

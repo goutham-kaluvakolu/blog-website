@@ -10,37 +10,98 @@ import { appBarVisibility } from "../atoms";
 
 const Appbar = () => {
     const navigate = useNavigate()
-    const [visible,setVisible] = useRecoilState(appBarVisibility)
+    const [visible, setVisible] = useRecoilState(appBarVisibility)
 
     return (
-        <div className="flex justify-between p-4 border-b-2 ">
-            <Link to="/blogs"><div className="font-bold w-2/3">Medium</div></Link>
-            <div className="flex  flex-row-reverse w-1/2 md:w-1/4 lg:w-1/6">
+        <div className="flex justify-between p-2 border-b-2 items-center">
+            <Link to="/blogs"><div className="font-bold ">
+                {/* <svg width="200" height="60" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="60" fill="#2c3e50"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#ecf0f1">lofi blogs</text>
+</svg> */}
+
+<svg width="200" height="60" xmlns="http://www.w3.org/2000/svg">
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Brush Script MT, cursive" font-size="40" fill="#2c3e50">lofi blogs</text>
+</svg>
+
+
+{/* <svg width="200" height="60" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="60" fill="#2c3e50"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Brush Script MT, cursive" font-size="32" fill="#ecf0f1">lofi blogs</text>
+</svg> */}
+
+
+</div></Link>
+            <div className="flex  flex-row-reverse  w-1/2 md:w-1/3 lg:w-1/5 justify-between">
                 {
                     visible && (
-                        <div className="flex justify-between w-full text-sm text-slate-500">
-                            <Link to="/writeblog" >Write</Link>
+                        <div className="w-full flex justify-between w-full text-lg text-slate-500 items-center">
+                            <Link to="/writeblog" ><span className="text-lg font-medium">Write</span></Link>
                             <div onClick={() => {
                                 localStorage.removeItem('jwt');
                                 localStorage.removeItem('userName');
                                 localStorage.removeItem('userId');
                                 setVisible(false)
                                 navigate("/signin");
-                            }}>
+
+                            }}
+                                className="text-lg font-medium cursor-pointer"
+                            >
                                 Logout
 
                             </div>
-                            <Link to={`/Account/${localStorage.getItem('userId')}`} className="mr-2"><Avatar authorName={localStorage.getItem('userName') || "unknown"} /></Link>
+
+                            <Link to={`/Account/${localStorage.getItem('userId')}`} className="mr-2 hovereffect"  >
+                                <Avatar authorName={localStorage.getItem('userName') || "unknown"} hieght="h-8" />
+                                <div className="dropdown m-1 p-2 rounded-lg border-2 border-slate-300 bg-white right-1 text-lg" >
+                                    <ul>
+                                        <li className="hover:bg-orange p-2 rounded-lg">dashboard</li>
+                                        <li className="hover:bg-orange p-2 rounded-lg">profile</li>
+                                        <li className="hover:bg-orange p-2 rounded-lg">bookmaks</li>
+                                    </ul>
+                                </div>
+                            </Link>
+
+                            <div>
+
+
+                            </div>
+
+
                         </div>
+
+
                     )
                 }
-                {!visible&&(
-                    <div onClick={() => {
-                        // setVisible(prev => !prev)
-                        navigate("/signin");
-                    }}>
-                        Login
-                    </div>
+                {!visible && (
+
+                        <div className="w-full flex flex-row-reverse text-slate-500 text-lg items-center justify-between" >
+                        <div className="m-2 cursor-pointer font-medium border-2 p-2 shadoweff items-center">
+                        Test User                        </div>
+
+                            <div onClick={() => {
+                                // setVisible(prev => !prev)
+                                navigate("/signin");
+                            }}
+                                className="cursor-pointer font-medium m-2 "
+                            >
+                                Log in
+                            </div>
+                            <div className="m-2 cursor-pointer font-medium">
+                                About
+                            </div>
+
+                        </div>
+
+           
+
+
+
+
+
+
+
+
                 )}
 
             </div>

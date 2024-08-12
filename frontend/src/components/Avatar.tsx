@@ -1,20 +1,31 @@
- type AvatorProps = {
-    authorName:string,
-    width?:string
-    hieght?:string
- }
- 
- const Avatar = ({ authorName,width="w-5",hieght="h-5" }: AvatorProps) => {
-    console.log(authorName)
-    const [firstName, secondName] = authorName?authorName.split(" "):"Anonymous".split(" ");
+import React, { useMemo } from 'react';
 
-    const initials = (firstName ? firstName[0] : '').toUpperCase() + (secondName ? secondName[0] : '').toUpperCase();
+type AvatarProps = {
+  authorName: string;
+  width?: string;
+  height?: string;
+};
 
-    return (
-        <div className={`relative inline-flex items-center justify-center ${width} ${hieght} mr-1 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 cursor-pointer`}>
-            <span className="font-medium text-gray-600 dark:text-gray-300">{initials}</span>
-        </div>
-    );
-}
+const colors = ["#4285F4", "#DB4437", "#F4B400", "#0F9D58", "#4285F4", "#DB4437", "#F4B400", "#0F9D58"];
+
+const Avatar: React.FC<AvatarProps> = ({ authorName, width = "w-8", height = "h-8" }) => {
+  const initials = useMemo(() => {
+    const [firstName, secondName] = authorName ? authorName.split(" ") : ["Anonymous"];
+    return (firstName ? firstName[0] : '') + (secondName ? secondName[0] : '');
+  }, [authorName]);
+
+  const color = useMemo(() => {
+    return colors[Math.floor(Math.random() * colors.length)];
+  }, [authorName]);
+
+  return (
+    <div 
+      className={`relative inline-flex items-center justify-center ${width} ${height} mr-1 overflow-hidden rounded-full cursor-pointer`}
+      style={{ backgroundColor: color }}
+    >
+      <span className="font-medium text-white">{initials.toUpperCase()}</span>
+    </div>
+  );
+};
 
 export default Avatar;

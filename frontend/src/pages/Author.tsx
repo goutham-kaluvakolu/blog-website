@@ -18,7 +18,7 @@ const Author = () => {
         if (!isFollowing) {
             axios.post(`${BACKEND_URL}/api/v1/default/follow/${id}`, {
                 followerId: localStorage.getItem("userId")
-            }).then((res) => {
+            }).then(() => {
                 setFollowerCounts(followerCounts + 1)
             })
                 .catch((err) => {
@@ -30,7 +30,7 @@ const Author = () => {
             axios.post(`${BACKEND_URL}/api/v1/default/unfollow/${id}`, {
                 followerId: localStorage.getItem("userId")
             })
-                .then((res) => {
+                .then(() => {
                     setFollowerCounts(followerCounts - 1)
                 })
                 .catch((err) => {

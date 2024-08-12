@@ -1,6 +1,6 @@
 import Avatar from "../components/Avatar";
 import Dot from "../components/Dot";
-import { useBlog } from "../hooks"
+import { useBlog, useBlogs } from "../hooks"
 import { Link, useParams } from 'react-router-dom';
 import { getDate, getReadTime } from "../utilites";
 import Shares from "../components/Shares";
@@ -11,10 +11,12 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import BlogCard from "../components/BlogCard";
 
 const Blog = () => {
   const { id } = useParams();
   const { loading, blog } = useBlog(id || "abc")
+  const { blogs } = useBlogs()
   if (loading) {
     return (
       <div>
@@ -55,8 +57,20 @@ const Blog = () => {
 
         </div>
         <Commentbox blogId={blog.id} />
+        {/* recomdecation */}
+        <div className="m-6">
+          <div className="text-3xl">Recommendations</div>
+          <div className="flex flex-col items-center justify-center m-2">
+          {
+            blogs.slice(0, 3).map((blog) =>
+              <BlogCard id={blog.id} key={blog.id} authorName={blog.authorName} content={blog.content} title={blog.title} authorId={blog.authorId} blogDate={blog.updatedAt} tags={blog.tagNames} />
+            )
+          }
+        </div>
+        </div>
+       
+       </div>
       </div>
-    </div>
   )
 }
 
@@ -103,23 +117,23 @@ const Commentbox = ({ blogId }: { blogId: string }) => {
     console.log("***", comments)
   }
   return (
-    <div className="border-t-2 p-5">
-      <div>comments</div>
-      <div className="flex p-5">
-      <input className="w-full" placeholder="your comment" type="text" onChange={(e) => handleChange(e)} />
-      <button className=" p-2 bg-lime-400" onClick={handleSubmit}>submit</button>
+    <div className="border-t-2 border-b-2 p-5">
+      <div className="text-3xl">comments (<span>{comments.length}</span>)</div>
+      <div className="flex p-5 shadoweffon">
+      <input className="w-full bg-white focus:outline-none" placeholder="your comment" type="text" onChange={(e) => handleChange(e)} />
+      <button className=" p-2 bg-lime-400 bg-orange rounded m-2" onClick={handleSubmit}>submit</button>
       </div>
       
       <div>{comments.length>0?(comments.map((comment: commentProps) => {
         return (
-          <div className="p-5 border-b-2" key={comment.author}>
+          <div className="p-5 border-b-2 m-4 " key={comment.author}>
             <div className="flex mb-2">
-            <div className="mr-2">{<Avatar authorName={comment.author}/>}</div><div>{comment.author}</div>
+            <div className="mr-2">{<Avatar authorName={comment.author}/>}</div><div className="text-lg font-semibold">{comment.author}</div>
             </div>
-            <div>{comment.content}</div>
+            <div className="text-slate-500 m-4">{comment.content}</div>
           </div>
         )
-      })):(<div className="p-5 text-center">
+      })):(<div className="p-5 text-center mt-4">
         No comments yet
       </div>)}</div>
     </div>

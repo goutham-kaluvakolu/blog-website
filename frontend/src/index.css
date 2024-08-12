@@ -31,6 +31,10 @@
 .shadoweff:hover{
     box-shadow: 0.5rem 0.5rem black;
 }
+.shadoweffon{
+    box-shadow: 0.5rem 0.5rem black;
+}
+
 .hovereffect{
     position: relative;
 }
